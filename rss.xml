@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Idempotent info</title><link>http://idempotent.info/</link><description>Yet another personal blog.</description><atom:link href="http://idempotent.info/rss.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 09 Feb 2014 15:27:12 GMT</lastBuildDate><generator>Nikola &lt;http://getnikola.com/&gt;</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>What's behind Sailfish browser</title><link>http://idempotent.info/posts/whats-behind-sailfish-browser.html</link><description>&lt;div&gt;&lt;p&gt;In this post I'd like to shade some light on what technology is used in
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Idempotent info</title><link>http://idempotent.info/</link><description>Yet another personal blog.</description><atom:link href="http://idempotent.info/rss.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Tue, 11 Feb 2014 17:52:48 GMT</lastBuildDate><generator>Nikola &lt;http://getnikola.com/&gt;</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>What's behind Sailfish browser</title><link>http://idempotent.info/posts/whats-behind-sailfish-browser.html</link><description>&lt;div&gt;&lt;p&gt;In this post I'd like to shade some light on what technology is used in
 the browser application for Sailfish OS.&lt;/p&gt;
 &lt;p&gt;By now it's a widely known fact that the browser is based on the Gecko engine
 which is developed by Mozilla corp. and is used in their Firefox browser and
 Firefox OS. For some reason it's not that known that the Sailfish browser is
 built upon the &lt;a class="reference external" href="https://github.com/tmeshkova/gecko-dev/tree/embedlite/embedding/embedlite"&gt;EmbedLite&lt;/a&gt; embedding API (also known as IPCLiteAPI) for Gecko.&lt;/p&gt;
-&lt;p&gt;This embedding API started as a research project in Nokia by Oleg Romashin at the
-times when Nokia was still developing the Maemo platform. Currently the project
-is maintained by Tatiana Meshkova.&lt;/p&gt;
+&lt;p&gt;This embedding API started as a research project in Nokia by Oleg Romashin and
+Andrey Petrov at the times when Nokia was still developing the Maemo platform.
+Currently the project is maintained by Tatiana Meshkova.&lt;/p&gt;
 &lt;p&gt;It would help us a lot if the API made its way to the main Gecko repository and
 became a part of the engine. Unfortunately this hasn't happened yet and the
 current status of such integration you can see in these two bugs:&lt;/p&gt;

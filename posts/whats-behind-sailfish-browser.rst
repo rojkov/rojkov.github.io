@@ -14,9 +14,9 @@ which is developed by Mozilla corp. and is used in their Firefox browser and
 Firefox OS. For some reason it's not that known that the Sailfish browser is
 built upon the EmbedLite_ embedding API (also known as IPCLiteAPI) for Gecko.
 
-This embedding API started as a research project in Nokia by Oleg Romashin at the
-times when Nokia was still developing the Maemo platform. Currently the project
-is maintained by Tatiana Meshkova.
+This embedding API started as a research project in Nokia by Oleg Romashin and
+Andrey Petrov at the times when Nokia was still developing the Maemo platform.
+Currently the project is maintained by Tatiana Meshkova.
 
 It would help us a lot if the API made its way to the main Gecko repository and
 became a part of the engine. Unfortunately this hasn't happened yet and the
