@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Idempotent info (gecko)</title><link>http://idempotent.info/</link><description></description><atom:link href="http://idempotent.info/categories/gecko.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 02 Mar 2014 15:11:09 GMT</lastBuildDate><generator>Nikola &lt;http://getnikola.com/&gt;</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>EmbedLite Initialization</title><link>http://idempotent.info/posts/embedlite-initialization.html</link><description>&lt;div&gt;&lt;p&gt;I guess some people may find useful the couple of words below on how
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Idempotent info (mozilla)</title><link>http://idempotent.info/</link><description></description><atom:link href="http://idempotent.info/categories/mozilla.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 02 Mar 2014 15:11:09 GMT</lastBuildDate><generator>Nikola &lt;http://getnikola.com/&gt;</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>EmbedLite Initialization</title><link>http://idempotent.info/posts/embedlite-initialization.html</link><description>&lt;div&gt;&lt;p&gt;I guess some people may find useful the couple of words below on how
 EmbedLite embedding is initialized. I've written them mostly because I'm trying
 to wrap my head around the topic myself. So please let me know if you see non-sense.&lt;/p&gt;
 &lt;div class="section" id="initialization-procedure"&gt;
@@ -208,62 +208,4 @@ called from the main UI thread. But the object is supposed to live in the
 compositor thread. This may become a problem if UI and gecko get moved to
 separate processes.&lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>gecko</category><category>firefox</category><category>mozilla</category><category>embedlite</category><guid>http://idempotent.info/posts/embedlite-initialization.html</guid><pubDate>Sun, 02 Mar 2014 15:08:04 GMT</pubDate></item><item><title>What's behind Sailfish browser</title><link>http://idempotent.info/posts/whats-behind-sailfish-browser.html</link><description>&lt;div&gt;&lt;p&gt;In this post I'd like to shade some light on what technology is used in
-the browser application for Sailfish OS.&lt;/p&gt;
-&lt;p&gt;By now it's a widely known fact that the browser is based on the Gecko engine
-which is developed by Mozilla corp. and is used in their Firefox browser and
-Firefox OS. For some reason it's not that known that the Sailfish browser is
-built upon the &lt;a class="reference external" href="https://github.com/tmeshkova/gecko-dev/tree/embedlite/embedding/embedlite"&gt;EmbedLite&lt;/a&gt; embedding API (also known as IPCLiteAPI) for Gecko.&lt;/p&gt;
-&lt;p&gt;This embedding API started as a research project in Nokia by Oleg Romashin and
-Andrey Petrov at the times when Nokia was still developing the Maemo platform.
-Currently the project is maintained by Tatiana Meshkova.&lt;/p&gt;
-&lt;p&gt;It would help us a lot if the API made its way to the main Gecko repository and
-became a part of the engine. Unfortunately this hasn't happened yet and the
-current status of such integration you can see in these two bugs:&lt;/p&gt;
-&lt;ol class="arabic simple"&gt;&lt;li&gt;&lt;a class="reference external" href="https://bugzilla.mozilla.org/show_bug.cgi?id=746800"&gt;https://bugzilla.mozilla.org/show_bug.cgi?id=746800&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://bugzilla.mozilla.org/show_bug.cgi?id=713681"&gt;https://bugzilla.mozilla.org/show_bug.cgi?id=713681&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;&lt;p&gt;Later on Oleg has implemented a Qt embedding library (&lt;a class="reference external" href="https://github.com/tmeshkova/qtmozembed"&gt;qtmozembed&lt;/a&gt;) that uses this API. And this library
-has enabled the development of a very
-&lt;a class="reference external" href="https://github.com/tmeshkova/qmlmozbrowser"&gt;lightweight Qt-based alternative to the Fennec browser&lt;/a&gt;
-for the Nokia N9 mobile phone. Also this browser has been ported to the Nemo project and
-packaged as &lt;a class="reference external" href="https://build.merproject.org/package/show?package=cutefox-qt5&amp;amp;project=nemo%3Adevel%3Aapps"&gt;Cutefox&lt;/a&gt;. Thanks to Andrey Kozhevnikov (aka CODERus), Stephan Beyerle (aka Morpog),
-Michael Demetriou (aka qwazix) and Ivaylo Dimitrov (aka freemangordon).
-The Cutefox browser became a starting point for the Sailfish browser.&lt;/p&gt;
-&lt;p&gt;Now let's see how all these components work together.&lt;/p&gt;
-&lt;p&gt;This &lt;a class="reference external" href="https://wiki.mozilla.org/Embedding/IPCLiteAPI"&gt;page&lt;/a&gt;
-breifly describes the architecture of EmbedLite API. The key points are:&lt;/p&gt;
-&lt;ul class="simple"&gt;&lt;li&gt;Native UI and Gecko engine live in different threads. Theoretically they can
-live in different processes thanks to Mozilla's &lt;a class="reference external" href="https://developer.mozilla.org/en-US/docs/IPDL/Tutorial"&gt;IPDL&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;Rendering is based on
-&lt;a class="reference external" href="https://wiki.mozilla.org/Platform/GFX/OffMainThreadCompositing#Design"&gt;off main thread compositing&lt;/a&gt;
-which provides multi-threaded responsive rendering. The same as in Firefox OS
-and Firefox for Android.&lt;/li&gt;
-&lt;li&gt;XUL is not used.&lt;/li&gt;
-&lt;/ul&gt;&lt;p&gt;Basically EmbedLite provides API to:&lt;/p&gt;
-&lt;ul class="simple"&gt;&lt;li&gt;start/terminate the Gecko engine in a separate thread/process;&lt;/li&gt;
-&lt;li&gt;create/destroy a web view;&lt;/li&gt;
-&lt;li&gt;install a toolkit specific listeners to receive events generated inside Gecko
-in the native UI;&lt;/li&gt;
-&lt;li&gt;send messages/events from the native UI to Gecko;&lt;/li&gt;
-&lt;li&gt;get/set Gecko preferences;&lt;/li&gt;
-&lt;li&gt;load XPCOM components needed for features implemented in the native UI.&lt;/li&gt;
-&lt;/ul&gt;&lt;p&gt;This functionality is exposed with two main classes: &lt;cite&gt;EmbedLiteApp&lt;/cite&gt; and &lt;cite&gt;EmbedLiteView&lt;/cite&gt;.
-&lt;cite&gt;EmbedLiteApp&lt;/cite&gt; represents the Gecko engine. Only one instance of this class is allowed
-to be created. &lt;cite&gt;EmbedLiteView&lt;/cite&gt; represents a web view naturally. It's possible to create
-many instances of this class.&lt;/p&gt;
-&lt;p&gt;Also EmbedLite defines two interfaces for toolkit specific
-listeners: &lt;cite&gt;EmbedLiteAppListener&lt;/cite&gt; and &lt;cite&gt;EmbedLiteViewListener&lt;/cite&gt;. An implementor of a
-toolkit specific embedding is supposed to implement listeners inhereting to those
-interfaces. Particularly the Qt embedding I mentioned above implements these two
-listeners in the classes &lt;cite&gt;QMozContextPrivate&lt;/cite&gt; (derived from &lt;cite&gt;EmbedLiteAppListener&lt;/cite&gt;)
-and &lt;cite&gt;QGraphicsMozViewprivate&lt;/cite&gt; (derived from &lt;cite&gt;EmbedLiteViewListener&lt;/cite&gt;).&lt;/p&gt;
-&lt;p&gt;The Sailfish browser doesn't know anything about all these details. They are hidden
-inside qtmozbed's interface classes:&lt;/p&gt;
-&lt;ol class="arabic simple"&gt;&lt;li&gt;&lt;cite&gt;QMozContext&lt;/cite&gt; which encapsulates the web engine (via &lt;cite&gt;QMozContextPrivate&lt;/cite&gt;);&lt;/li&gt;
-&lt;li&gt;&lt;cite&gt;QuickMozView&lt;/cite&gt; which encapsulets a web view (via &lt;cite&gt;QGraphicsMozViewPrivate&lt;/cite&gt;) and
-provides declarative QtQuick interface. In other words it can be used as a QML
-component in your Qt application.&lt;/li&gt;
-&lt;/ol&gt;&lt;p&gt;Here's a bit outdated static model:&lt;/p&gt;
-&lt;a class="reference external image-reference" href="http://idempotent.info/images/qtembed.png"&gt;&lt;img alt="/images/qtembed.png" src="http://idempotent.info/images/qtembed.png"&gt;&lt;/a&gt;
-&lt;p&gt;In the next post I'll describe in more details what happens when EmbedLite is initialized
-and a web view gets created.&lt;/p&gt;&lt;/div&gt;</description><category>gecko</category><category>embedlite</category><category>sailfish</category><guid>http://idempotent.info/posts/whats-behind-sailfish-browser.html</guid><pubDate>Sun, 09 Feb 2014 14:07:14 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;&lt;/div&gt;</description><category>gecko</category><category>firefox</category><category>mozilla</category><category>embedlite</category><guid>http://idempotent.info/posts/embedlite-initialization.html</guid><pubDate>Sun, 02 Mar 2014 15:08:04 GMT</pubDate></item></channel></rss>
