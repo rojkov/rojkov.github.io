@@ -6,7 +6,7 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>http://idempotent.info/2014/index.html</loc>
-  <lastmod>2014-03-02</lastmod>
+  <lastmod>2014-03-20</lastmod>
  </url>
  <url>
   <loc>http://idempotent.info/archive.html</loc>
@@ -66,7 +66,7 @@
  </url>
  <url>
   <loc>http://idempotent.info/index.html</loc>
-  <lastmod>2014-03-02</lastmod>
+  <lastmod>2014-03-20</lastmod>
  </url>
  <url>
   <loc>http://idempotent.info/listings/index.html</loc>
@@ -74,7 +74,11 @@
  </url>
  <url>
   <loc>http://idempotent.info/posts/embedlite-initialization.html</loc>
-  <lastmod>2014-03-02</lastmod>
+  <lastmod>2014-03-20</lastmod>
+ </url>
+ <url>
+  <loc>http://idempotent.info/posts/how-to-configure-devel-environment-to-work-on-gecko-for-sailfishos.html</loc>
+  <lastmod>2014-03-20</lastmod>
  </url>
  <url>
   <loc>http://idempotent.info/posts/whats-behind-sailfish-browser.html</loc>
@@ -82,7 +86,7 @@
  </url>
  <url>
   <loc>http://idempotent.info/rss.xml</loc>
-  <lastmod>2014-03-02</lastmod>
+  <lastmod>2014-03-20</lastmod>
  </url>
  <url>
   <loc>http://idempotent.info/stories/about.html</loc>

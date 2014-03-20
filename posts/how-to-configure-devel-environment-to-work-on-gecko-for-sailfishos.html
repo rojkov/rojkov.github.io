@@ -1,0 +1,276 @@
+<!DOCTYPE html><html lang="en"><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="author" content="Dmitry Rozhkov"><title>How to configure devel environment to work on Gecko for SailfishOS | Idempotent info</title><link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css"><link rel="canonical" href="http://idempotent.info/posts/how-to-configure-devel-environment-to-work-on-gecko-for-sailfishos.html"><!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+    <![endif]--><link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml"></head><body>
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"><div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="http://idempotent.info/">Idempotent info</a>
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav"><li><a href="../stories/about.html">About</a>
+                </li><li><a href="../archive.html">Archives</a>
+                </li><li><a href="../categories/index.html">Tags</a>
+                </li><li><a href="../rss.xml">RSS</a>
+
+        </li></ul><ul class="nav navbar-nav navbar-right"><li>
+    <a href="how-to-configure-devel-environment-to-work-on-gecko-for-sailfishos.rst" id="sourcelink">Source</a>
+    </li>
+
+        </ul></div><!-- /.navbar-collapse -->
+</nav><!-- End of Menubar --><div class="container">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+    <article class="postbox post-text"><div class="h-entry" itemscope="itemscope" itemtype="http://schema.org/Article">
+    
+    <h1 class="p-name" itemprop="headline name">How to configure devel environment to work on Gecko for SailfishOS</h1>
+
+    <hr><small>
+        Posted: <time class="published dt-published" datetime="2014-03-20T15:44:36+00:00" itemprop="datePublished">2014-03-20 15:44</time></small>
+    <hr><div class="e-content" itemprop="articleBody text">
+    <div><p>It turned out that newcomers have difficulties with setting up their development
+environment to work on Gecko integration with Nemo, SailfishOS or any other
+Mer-based Linux. Hence this post.</p>
+<!-- TEASER_END -->
+<div class="section" id="configure-development-environment">
+<h2>Configure development environment</h2>
+<p>Gecko engine development for embedded devices is quite resource consuming.
+If you want to try it you'd better have a mighty computer running Linux and
+avoid virtualization. It's better not to use the standard SailfishOS SDK,
+but to resort to Mer chroot-based SDK.</p>
+<p>First of all you'll need to install Mer platform SDK and enter into it. Look at
+<a class="reference external" href="https://wiki.merproject.org/wiki/Platform_SDK">this wiki page</a> for details and
+follow the instructions till the part "Basic tasks".</p>
+<p>Then you'll need to create and install a rootfs. More detailed instructions
+can be found <a class="reference external" href="https://wiki.merproject.org/wiki/Platform_SDK_and_SB2">here</a>,
+but below is an extarct from there:</p>
+<pre class="literal-block">
+MerSDK$ sudo mkdir -p /parentroot/srv/mer/targets
+MerSDK$ cd /tmp
+</pre>
+<p>Now in the current directory (which is /tmp) create a file <cite>mer-target-armv7hl.ks</cite>
+with the following content:</p>
+<pre class="literal-block">
+# -*-mic2-options-*- --arch=armv7hl -*-mic2-options-*-
+
+lang en_US.UTF-8
+keyboard us
+timezone --utc UTC
+part / --size 500 --ondisk sda --fstype=ext4
+rootpw rootme
+
+user --name mer  --groups audio,video --password rootme
+
+repo --name=sailfish --baseurl=http://releases.sailfishos.org/sdk/latest/jolla/armv7hl --save --debuginfo
+
+%packages
+glibc-devel
+mesa-llvmpipe-libEGL-devel
+mesa-llvmpipe-libGLESv2-devel
+shadow-utils
+rpm-build
+meego-rpm-config
+zypper
+%end
+
+%post
+## rpm-rebuilddb.post from mer-kickstarter-configs package
+# Rebuild db using target's rpm
+echo -n "Rebuilding db using target rpm.."
+rm -f /var/lib/rpm/__db*
+rpm --rebuilddb
+echo "done"
+## end rpm-rebuilddb.post
+
+## arch-armv7hl.post from mer-kickstarter-configs package
+# Without this line the rpm don't get the architecture right.
+echo -n 'armv7hl-meego-linux' &gt; /etc/rpm/platform
+
+# Also libzypp has problems in autodetecting the architecture so we force tha as well.
+# https://bugs.meego.com/show_bug.cgi?id=11484
+echo 'arch = armv7hl' &gt;&gt; /etc/zypp/zypp.conf
+## end arch-armv7hl.post
+
+%end
+</pre>
+<p>Then create a target:</p>
+<pre class="literal-block">
+MerSDK$ sudo mic create fs mer-target-armv7hl.ks -o /parentroot/srv/mer/targets --pkgmgr=zypp --arch=armv7hl --tokenmap=MER_RELEASE:latest
+MerSDK$ sudo chown -R $USER /parentroot/srv/mer/targets/mer-target-armv7hl/*
+</pre>
+<p>Now tweak the target to recognize you:</p>
+<pre class="literal-block">
+MerSDK$ cd /parentroot/srv/mer/targets/mer-target-armv7hl/
+MerSDK$ grep :$(id -u): /etc/passwd &gt;&gt; etc/passwd
+MerSDK$ grep :$(id -g): /etc/group &gt;&gt; etc/group
+</pre>
+<p>Configure it to work with Scratchbox2 together:</p>
+<pre class="literal-block">
+MerSDK$ cd /parentroot/srv/mer/targets/mer-target-armv7hl/
+MerSDK$ sb2-init -d -L "--sysroot=/" -C "--sysroot=/" -c /usr/bin/qemu-arm-dynamic -m sdk-build -n -N -t / mer-target-armv7hl /opt/cross/bin/armv7hl-meego-linux-gnueabi-gcc
+MerSDK$ sb2 -t mer-target-armv7hl -m sdk-install -R zypper ref --force
+</pre>
+<p>Clone web engine git repos to your local file system (e.g. into
+the local directory <cite>/home/rozhkov/tmp/mozilla-temp/</cite>):</p>
+<pre class="literal-block">
+$ mkdir -p /home/rozhkov/tmp/mozilla-temp
+$ cd /home/rozhkov/tmp/mozilla-temp
+$ git clone git@github.com:tmeshkova/xulrunner-package.git
+$ cd xulrunner-package
+$ ./pull.all.sh
+</pre>
+<p>After that install build requirements to the rootfs:</p>
+<pre class="literal-block">
+MerSDK$ cd /home/rozhkov/tmp/mozilla-temp/xulrunner-package
+MerSDK$ grep --color=never BuildRequires mozilla-central/rpm/xulrunner-qt5.spec | sed -e '/^#.*$/d' | gawk -F: '{ print $2 }' | tr ',' ' '| xargs sb2 -t mer-target-armv7hl -m sdk-install -R zypper in
+MerSDK$ grep --color=never BuildRequires qtmozembed/rpm/qtmozembed-qt5.spec | sed -e '/^#.*$/d' | gawk -F: '{ print $2 }' | tr ',' ' '|xargs sb2 -t mer-target-armv7hl -m sdk-install -R zypper in
+MerSDK$ grep --color=never BuildRequires embedlite-components/rpm/embedlite-components-qt5.spec | sed -e '/^#.*$/d' | gawk -F: '{ print $2 }' | tr ',' ' '|xargs sb2 -t mer-target-armv7hl -m sdk-install -R zypper in
+MerSDK$ grep --color=never BuildRequires sailfish-browser/rpm/sailfish-browser.spec | sed -e '/^#.*$/d' | gawk -F: '{ print $2 }' | tr ',' ' '|xargs sb2 -t mer-target-armv7hl -m sdk-install -R zypper in
+</pre>
+<p>Remove the packages that are not really needed for engine development:</p>
+<pre class="literal-block">
+MerSDK$ sb2 -t mer-target-armv7hl -m sdk-install -R zypper rm qtmozembed-qt5 qtmozembed-qt5-devel xulrunner-qt5 xulrunner-qt5-devel
+</pre>
+<p>And finally build the stuff with the <cite>build.sh</cite> script:</p>
+<pre class="literal-block">
+MerSDK$ sb2 -t mer-target-armv7hl -m sdk-build ./build.sh -j -t mer
+</pre>
+<p>The option <cite>-j</cite> here makes <cite>build.sh</cite> build sailfish-browser binaries as well.</p>
+<p>When everything is successfully built the script will show instructions on how
+to run the newly built browser:</p>
+<pre class="literal-block">
+...
+make[1]: Leaving directory `/home/rozhkov/tmp/mozilla-temp/xulrunner-package/sailfish-browser/src'
+make: Leaving directory `/home/rozhkov/tmp/mozilla-temp/xulrunner-package/sailfish-browser'
+
+prepare run-time environment:
+export LD_LIBRARY_PATH=/home/rozhkov/tmp/mozilla-temp/xulrunner-package/qtmozembed/objdir-mer/src
+export QML_IMPORT_PATH=/home/rozhkov/tmp/mozilla-temp/xulrunner-package/qtmozembed/objdir-mer/qmlplugin5
+export QML2_IMPORT_PATH=/home/rozhkov/tmp/mozilla-temp/xulrunner-package/qtmozembed/objdir-mer/qmlplugin5
+
+run unit-tests:
+export QTTESTSROOT=/home/rozhkov/tmp/mozilla-temp/xulrunner-package/qtmozembed/tests
+export QTTESTSLOCATION=/home/rozhkov/tmp/mozilla-temp/xulrunner-package/qtmozembed/tests/auto/mer-qt5
+export QTMOZEMBEDOBJDIR=/home/rozhkov/tmp/mozilla-temp/xulrunner-package/qtmozembed/objdir-mer
+/home/rozhkov/tmp/mozilla-temp/xulrunner-package/qtmozembed/tests/auto/run-tests.sh
+
+run test example:
+/home/rozhkov/tmp/mozilla-temp/xulrunner-package/objdir-mer/dist/bin/qmlMozEmbedTestQt5  -fullscreen  -url about:license
+/home/rozhkov/tmp/mozilla-temp/xulrunner-package/objdir-mer/dist/bin/sailfish-browser about:license
+</pre>
+<div class="note">
+<p class="first admonition-title">Note</p>
+<p>Due to a bug in gecko build scripts you might encounter an error message about missing <cite>config.status</cite>
+file after the build configuration phase. In this case just copy the file <cite>objdir-mer/config.status</cite>
+to your working directory and run <cite>build.sh</cite> again:</p>
+<pre class="last literal-block">
+MerSDK$ cp objdir-mer/config.status .
+MerSDK$ sb2 -t mer-target-armv7hl -m sdk-build ./build.sh -j -t mer
+</pre>
+</div>
+<p>The best way to test the build is to mount the working directory into the
+device's file system so that the path to the built binaries on the device is
+the same as in the host filesystem. For this you'll need to have the package
+<cite>sshfs</cite> installed on the device:</p>
+<pre class="literal-block">
+[nemo@localhost-001 ~]$ mkdir tmp
+[nemo@localhost-001 ~]$ sshfs rozhkov@192.168.2.14:/home/rozhkov/tmp tmp
+[nemo@localhost-001 ~]$ devel-su
+[root@localhost-001 nemo]$ cd /home
+[root@localhost-001 home]$ ln -s nemo rozhkov
+[root@localhost-001 home]$ exit
+[nemo@localhost-001 ~]$ cd tmp/mozilla-temp/xulrunner-package
+[nemo@localhost-001 xulrunner-package]$ export LD_LIBRARY_PATH=/home/rozhkov/tmp/mozilla-temp/xulrunner-package/qtmozembed/objdir-mer/src
+[nemo@localhost-001 xulrunner-package]$ export QML_IMPORT_PATH=/home/rozhkov/tmp/mozilla-temp/xulrunner-package/qtmozembed/objdir-mer/qmlplugin5
+[nemo@localhost-001 xulrunner-package]$ export QML2_IMPORT_PATH=/home/rozhkov/tmp/mozilla-temp/xulrunner-package/qtmozembed/objdir-mer/qmlplugin5
+[nemo@localhost-001 xulrunner-package]$ /home/rozhkov/tmp/mozilla-temp/xulrunner-package/objdir-mer/dist/bin/sailfish-browser about:license
+</pre>
+<p>By now you should have working development environment. If you change code under
+<cite>mozilla-central/embedding/embedlite</cite>, <cite>qtmozembed</cite>, <cite>embedlite-components</cite> or
+<cite>sailfish-browser</cite> just run the <cite>build.sh</cite> script again:</p>
+<pre class="literal-block">
+MerSDK$ sb2 -t mer-target-armv7hl -m sdk-build ./build.sh -j -t mer
+</pre>
+<p>If you change something inside other gecko components, e.g. under <cite>mozilla-central/dom/events</cite>
+or <cite>mozilla-central/gfx</cite>,
+then you'll need to rebuild the outdated object files too with the option <cite>-o</cite>:</p>
+<pre class="literal-block">
+MerSDK$ sb2 -t mer-target-armv7hl -m sdk-build ./build.sh -j -t mer -o dom/events,gfx
+</pre>
+<p>This way there is no need to rebuild all other object files. And if you're working
+on the engine only then you might want to use the option <cite>-e</cite> of <cite>build.sh</cite> that
+makes the script to rebuild only the engine:</p>
+<pre class="literal-block">
+MerSDK$ sb2 -t mer-target-armv7hl -m sdk-build ./build.sh -e -t mer
+</pre>
+<div class="section" id="useful-info">
+<h3>Useful info</h3>
+<p>If you're working on JS components don't forget to reset the start up cache
+before testing your work:</p>
+<pre class="literal-block">
+[nemo@localhost-001 xulrunner-package]$ rm -fr ~/.mozilla/mozembed/startupCache/
+</pre>
+<p>If you need to switch on <a class="reference external" href="https://wiki.mozilla.org/MailNews:Logging">logging</a>
+in the engine then define <cite>NSPR_LOG_MODULES</cite> environment variable:</p>
+<pre class="literal-block">
+[nemo@localhost-001 xulrunner-package]$ export NSPR_LOG_MODULES=TabChildHelper:5,EmbedLiteTrace:5,EmbedContentController:5
+</pre>
+<div class="warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">In order to see logging from components other than EmbedLite you'd need to
+have a so called debug build of xulrunner. Use the option <cite>-d</cite> of the
+<cite>build.sh</cite> script to create it.</p>
+</div>
+<p>Unfortunately the gecko build system is based on python which runs under qemu
+inside Scratchbox2 by default (unless you do x86 build). It is possible to accelerate python though.
+To achieve this you need to use a special Scratchbox2 mode <cite>sdk-build+pp</cite> and
+to add the option <cite>-r</cite> to <cite>build.sh</cite>:</p>
+<pre class="literal-block">
+MerSDK$ sb2 -t mer-target-armv7hl -m sdk-build+pp ./build.sh -r -j -t mer
+</pre>
+<p>Happy hacking!</p>
+</div>
+</div></div>
+    </div>
+    </div>
+    
+        <ul class="pager"><li class="previous">
+                <a href="embedlite-initialization.html" rel="prev">← Previous post</a>
+            </li>
+        </ul><div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="idempotent",
+            disqus_url="http://idempotent.info/posts/how-to-configure-devel-environment-to-work-on-gecko-for-sailfishos.html",
+        disqus_title="How to configure devel environment to work on Gecko for SailfishOS",
+        disqus_identifier="cache/posts/how-to-configure-devel-environment-to-work-on-gecko-for-sailfishos.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+    
+
+    </article></div>
+        <!--End of body content-->
+
+        <footer>
+            Contents © 2014         <a href="mailto:rozhkov@idempotent.com">Dmitry Rozhkov</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         
+        </footer></div>
+</div>
+
+
+            <script src="../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">jQuery("a.image-reference").colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script></body></html>
