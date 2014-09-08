@@ -44,7 +44,7 @@ with the following content::
 
   user --name mer  --groups audio,video --password rootme 
 
-  repo --name=sailfish --baseurl=http://releases.sailfishos.org/sdk/latest/jolla/armv7hl --save --debuginfo
+  repo --name=sailfish --baseurl=http://releases.jolla.com/releases/latest/jolla/armv7hl --save --debuginfo
 
   %packages
   glibc-devel
