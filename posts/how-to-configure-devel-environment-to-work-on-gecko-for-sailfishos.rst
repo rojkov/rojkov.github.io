@@ -42,7 +42,7 @@ with the following content::
   part / --size 500 --ondisk sda --fstype=ext4
   rootpw rootme
 
-  user --name mer  --groups audio,video --password rootme 
+  user --name mer  --groups audio,video --password rootme
 
   repo --name=sailfish --baseurl=http://releases.jolla.com/releases/latest/jolla/armv7hl --save --debuginfo
 
@@ -79,7 +79,7 @@ with the following content::
 Then create a target::
 
   MerSDK$ sudo mic create fs mer-target-armv7hl.ks -o /parentroot/srv/mer/targets --pkgmgr=zypp --arch=armv7hl --tokenmap=MER_RELEASE:latest
-  MerSDK$ sudo chown -R $USER /parentroot/srv/mer/targets/mer-target-armv7hl/*
+  MerSDK$ sudo chown -R $USER /parentroot/srv/mer/targets/mer-target-armv7hl/
 
 Now tweak the target to recognize you::
 

@@ -96,7 +96,7 @@ echo 'arch = armv7hl' &gt;&gt; /etc/zypp/zypp.conf
 <p>Then create a target:</p>
 <pre class="literal-block">
 MerSDK$ sudo mic create fs mer-target-armv7hl.ks -o /parentroot/srv/mer/targets --pkgmgr=zypp --arch=armv7hl --tokenmap=MER_RELEASE:latest
-MerSDK$ sudo chown -R $USER /parentroot/srv/mer/targets/mer-target-armv7hl/*
+MerSDK$ sudo chown -R $USER /parentroot/srv/mer/targets/mer-target-armv7hl/
 </pre>
 <p>Now tweak the target to recognize you:</p>
 <pre class="literal-block">
