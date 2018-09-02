@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Dmitry Rozhkov</title>
+    <link>https://rojkov.github.io/posts/</link>
+    <description>Recent content in Posts on Dmitry Rozhkov</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© 2018 Dmitry Rozhkov</copyright>
+    <lastBuildDate>Thu, 20 Mar 2014 15:44:36 +0300</lastBuildDate>
+    
+	<atom:link href="https://rojkov.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>How to Configure Devel Environment to Work on Gecko for Sailfishos</title>
+      <link>https://rojkov.github.io/posts/how-to-configure-devel-environment-to-work-on-gecko-for-sailfishos/</link>
+      <pubDate>Thu, 20 Mar 2014 15:44:36 +0300</pubDate>
+      
+      <guid>https://rojkov.github.io/posts/how-to-configure-devel-environment-to-work-on-gecko-for-sailfishos/</guid>
+      <description>&lt;p&gt;It turned out that newcomers have difficulties with setting up their development
+environment to work on Gecko integration with Nemo, SailfishOS or any other
+Mer-based Linux. Hence this post.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>EmbedLite Initialization</title>
+      <link>https://rojkov.github.io/posts/embedlite-initialization/</link>
+      <pubDate>Sun, 02 Mar 2014 15:08:04 +0300</pubDate>
+      
+      <guid>https://rojkov.github.io/posts/embedlite-initialization/</guid>
+      <description>&lt;p&gt;I guess some people may find useful the couple of words below on how
+EmbedLite embedding is initialized. I&amp;rsquo;ve written them mostly because I&amp;rsquo;m trying
+to wrap my head around the topic myself. So please let me know if you see non-sense.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>What&#39;s Behind Sailfish Browser</title>
+      <link>https://rojkov.github.io/posts/whats-behind-sailfish-browser/</link>
+      <pubDate>Sun, 09 Feb 2014 14:07:14 +0300</pubDate>
+      
+      <guid>https://rojkov.github.io/posts/whats-behind-sailfish-browser/</guid>
+      <description>&lt;p&gt;In this post I&amp;rsquo;d like to shade some light on what technology is used in
+the browser application for Sailfish OS.&lt;/p&gt;
+
+&lt;p&gt;By now it&amp;rsquo;s a widely known fact that the browser is based on the Gecko engine
+which is developed by Mozilla corp. and is used in their Firefox browser and
+Firefox OS. For some reason it&amp;rsquo;s not that known that the Sailfish browser is
+built upon the &lt;a href=&#34;https://github.com/tmeshkova/gecko-dev/tree/embedlite/embedding/embedlite&#34;&gt;EmbedLite&lt;/a&gt;
+embedding API (also known as IPCLiteAPI) for Gecko.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
