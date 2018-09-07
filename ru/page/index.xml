@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pages on Дмитрий Рожков</title>
+    <link>https://rojkov.github.io/ru/page/</link>
+    <description>Recent content in Pages on Дмитрий Рожков</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© 2018 Дмитрий Рожков</copyright>
+    <lastBuildDate>Thu, 05 Sep 2013 20:20:10 +0300</lastBuildDate>
+    
+	<atom:link href="https://rojkov.github.io/ru/page/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Контакты</title>
+      <link>https://rojkov.github.io/ru/page/about/</link>
+      <pubDate>Thu, 05 Sep 2013 20:20:10 +0300</pubDate>
+      
+      <guid>https://rojkov.github.io/ru/page/about/</guid>
+      <description>Я регулярно проверяю ящик dmitry.rojkov@gmail.com.</description>
+    </item>
+    
+  </channel>
+</rss>
