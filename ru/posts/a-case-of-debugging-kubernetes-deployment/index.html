@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta property="og:title" content="Пример отладки экземпляра Deployment в Kubernetes" />
+<meta property="og:description" content="Не так давно я просматривал список багрепортов в репозитории
+Kubernetes. Искал что бы такое починить в целях повышения собственной
+заметности в сообществе. И наткнулся
+на отчёт,
+который следовало бы озаглавить как &laquo;Таинственное обновление
+ReplicaSet в Deployment, которое его ломает&raquo;.
+
+Сейчас причина сбоя видится тривиальной, если подумать, а не использовать
+накопившиеся условные рефлексы. Но в тот момент задача показалась
+не столь простой, а от того - интересной. И я решил ею заняться.
+
+Раз отчёт об ошибке появился на багтрекере Кубернетиса, то и проблема
+скорее всего в самом Кубернетисе, наивно подумал я. Но как вообще
+люди решают подобные задачи? Нет ли уже готовой методологии для этого?
+Лично я ничего подобного не встречал, но, похоже,
+не я один
+задаюсь такими вопросами. А потому я решил скопировать свой
+комментарий на эту тему из обсуждения отчёта сюда. Так мне его
+потом проще будет найти. И, может быть, кому-то ещё пригодится.
+
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://rojkov.github.io/ru/posts/a-case-of-debugging-kubernetes-deployment/" /><meta property="article:published_time" content="2018-09-09T16:23:22&#43;03:00"/>
+<meta property="article:modified_time" content="2018-09-09T16:23:22&#43;03:00"/><meta property="og:site_name" content="Дмитрий Рожков" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Пример отладки экземпляра Deployment в Kubernetes"/>
+<meta name="twitter:description" content="Не так давно я просматривал список багрепортов в репозитории
+Kubernetes. Искал что бы такое починить в целях повышения собственной
+заметности в сообществе. И наткнулся
+на отчёт,
+который следовало бы озаглавить как &laquo;Таинственное обновление
+ReplicaSet в Deployment, которое его ломает&raquo;.
+
+Сейчас причина сбоя видится тривиальной, если подумать, а не использовать
+накопившиеся условные рефлексы. Но в тот момент задача показалась
+не столь простой, а от того - интересной. И я решил ею заняться.
+
+Раз отчёт об ошибке появился на багтрекере Кубернетиса, то и проблема
+скорее всего в самом Кубернетисе, наивно подумал я. Но как вообще
+люди решают подобные задачи? Нет ли уже готовой методологии для этого?
+Лично я ничего подобного не встречал, но, похоже,
+не я один
+задаюсь такими вопросами. А потому я решил скопировать свой
+комментарий на эту тему из обсуждения отчёта сюда. Так мне его
+потом проще будет найти. И, может быть, кому-то ещё пригодится.
+
+"/>
+
+
+    <meta name="description" content="">
+    <link rel="canonical" href="https://rojkov.github.io/ru/posts/a-case-of-debugging-kubernetes-deployment/">
+
+    
+    <title>Пример отладки экземпляра Deployment в Kubernetes &middot; Дмитрий Рожков</title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+
+    <link href="https://rojkov.github.io/css/style.css" rel="stylesheet">
+
+    
+
+    
+
+    
+  </head>
+  <body>
+    
+      
+
+
+
+<nav class="white" role="navigation">
+    <div class="row max-width">
+        <div class="col s12 l10 offset-l1">
+            
+            <a href="#" data-activates="nav-mobile" class="button-collapse black-text">
+                <i class="material-icons">menu</i>
+            </a>
+
+            
+            <ul id="nav-mobile" class="side-nav">
+                
+                
+    
+        
+            
+<li>
+    <a class="black-text" href="/ru/page/about/">Контакты</a>
+</li>
+
+        
+    
+    
+
+            </ul>
+
+            
+            <a href="/ru" class="brand-logo grey-text text-darken-3">Дмитрий Рожков</a>
+
+            
+            <div class="nav-wrapper">
+
+                
+                <ul class="right hide-on-med-and-down">
+                    
+                    
+    
+        
+            
+<li>
+    <a class="black-text" href="/ru/page/about/">Контакты</a>
+</li>
+
+        
+    
+    
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</nav>
+    
+
+    
+
+<article class="max-width">
+    
+    <section class="row">
+        <div class="col s12 m10 offset-m1 l10 offset-l1">
+            <h1>Пример отладки экземпляра Deployment в Kubernetes</h1>
+        </div>
+    </section>
+
+    
+    
+
+    
+    <section class="row">
+        <div class="col s12 m8 offset-m2 l2 offset-l1">
+            
+
+<p class="article-meta">
+    <div class="article-meta-container">
+        <div class="article-meta-author-name"></div>
+        <div class="article-meta-description"></div>
+    </div>
+    <span class="article-meta-published-at grey-text text-darken-1">Sep 9, 2018</span>
+</p>
+        </div>
+        <div class="col s12 m8 offset-m2 l6">
+            <p>Не так давно я просматривал список багрепортов в репозитории
+Kubernetes. Искал что бы такое починить в целях повышения собственной
+заметности в сообществе. И наткнулся
+<a href="https://github.com/kubernetes/kubernetes/issues/67515">на отчёт</a>,
+который следовало бы озаглавить как &laquo;Таинственное обновление
+<code>ReplicaSet</code> в <code>Deployment</code>, которое его ломает&raquo;.</p>
+
+<p>Сейчас причина сбоя видится тривиальной, если подумать, а не использовать
+накопившиеся условные рефлексы. Но в тот момент задача показалась
+не столь простой, а от того - интересной. И я решил ею заняться.</p>
+
+<p>Раз отчёт об ошибке появился на багтрекере Кубернетиса, то и проблема
+скорее всего в самом Кубернетисе, наивно подумал я. Но как вообще
+люди решают подобные задачи? Нет ли уже готовой методологии для этого?
+Лично я ничего подобного не встречал, но, похоже,
+<a href="https://github.com/kubernetes/kubernetes/issues/67515#issuecomment-415481314">не я один</a>
+задаюсь такими вопросами. А потому я решил скопировать свой
+комментарий на эту тему из обсуждения отчёта сюда. Так мне его
+потом проще будет найти. И, может быть, кому-то ещё пригодится.</p>
+
+<p></p>
+
+<p>Мой способ отладки это путь проб и ошибок прежде всего, слегка
+направляемый некоторым моим прошлым опытом. Но общий алгоритм
+таков:</p>
+
+<ol>
+<li><p>Воспроизведи проблему локально. Как правило этот шаг занимает
+больше всего времени.</p></li>
+
+<li><p>Посмотри во все доступные логи на предмет странного. К сожалению,
+у всех людей разное представление о странном, сильно зависящее от
+опыта. Чем больше опыт, тем очевиднее странное. Мой крохотный опыт
+не позволил найти ничего странного на этом шаге.</p></li>
+
+<li><p>Попробуй собрать старую версию Кубернетиса. Чем старее, тем лучше.
+Если проблема не воспроизводится, то дальнейшие шаги сводятся
+к последовательным запусками <code>git bisect</code> с целью найти коммит,
+который привносит проблему. Но в данном случае проблема воспроизводилась
+даже в Kubernetes v1.8.0, а значит это не обычная регрессия, и надо
+копать дальше.</p></li>
+
+<li><p>Изучи содержимое проблемных объектов (<code>ReplicaSet</code>) посредством
+комманды <code>kubectl describe ...</code>. Как объекты одного и того же типа
+отличаются друг от друга? Если какой-то объект меняется с течением
+времени, то следует присмотреться, что именно в нём меняется.
+На этом шаге обнаружилось, что изменяется объект <code>Deployment</code> -
+в нём исчезают &ldquo;tolerations&rdquo;.</p></li>
+
+<li><p>Найди код, который исполняется в время изменения <code>Deployment</code> и
+сделай логгирование по-многословнее. Тут оказалось, что искомый
+код находится в <code>kube-contoller-manager</code>, а установка вот такой
+переменной окружения повышает словоохотливость логов</p>
+
+<pre><code>LOG_SPEC=deployment_controller*=5,replica_set*=5,sync*=5,recreate*=5
+</code></pre>
+
+<p>Однако единственным результатом этого шага стало подтверждение,
+что объект <code>Deployment</code> действительно кем-то изменяется.</p></li>
+
+<li><p>Измени обработчик обновления объектов <code>Deployment</code>, чтобы в логах
+было видно, что конкретно изменяется помимо &ldquo;tolerations&rdquo; (например,
+с помощью в <a href="https://github.com/d4l3k/messagediff">этой библиотеки</a>).
+Тут могут быть сюрпризы&hellip; Но не в этот раз.</p></li>
+
+<li><p>Поищи код, который непосредственно меняет объекты <code>Deployment</code>
+через <code>apiserver</code> при помощи вот такой команды.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ git grep Deployments | grep <span style="color:#d14">&#34;Update(&#34;</span></code></pre></div>
+<p>В коде Кубернетиса есть всего несколько место, где <code>Deployment</code>
+обновляются, но ни одно из них не выглядит подозрительным.
+Это, наконец-то, приводит нас к давно напрашивающемуся выводу о том,
+что источник изменений объекта находится где-то за пределами кода
+самого Кубернетиса.</p></li>
+
+<li><p>Take a closer look at the YAML files. They seem to be quite complex.</p></li>
+
+<li><p>Try to make the setup as simple as possible where the issue is still
+reproducible. Here I found that small one line changes in different YAML
+files lead to the issue being not reproducible - the setup is too fragile.</p></li>
+
+<li><p>Then look through the YAMLs line by line in the hope to find something
+interesting. The interesting bit here is that the deployment operates
+on behalf of the <code>kube-state-metrics</code> service account which requests
+permission to do <code>update</code> on <code>Deployment</code>s.</p></li>
+
+<li><p>Drop this permission. This confirms that the Deployment doesn&rsquo;t
+change any more.</p></li>
+
+<li><p>Look into the logs of the running pod. Bingo! In <code>addon-resizer</code>&rsquo;s logs
+there is an error about inability to update the <code>Deployment</code>.</p></li>
+
+<li><p>Try to find the sources of <code>addon-resizer:1.0</code>. This turned out to be
+not easy task, because the version 1.0 is <strong>very</strong> old. Apparently the
+culprit is K8s API has evolved too much since v1.0. Looking at <code>PodSpec</code>
+used in <code>addon-resizer:1.0</code> confirms it.</p></li>
+</ol>
+
+<p>So, it turned out the problem is in the outdated container image
+<code>quay.io/coreos/addon-resizer:1.0</code> of the deployment.</p>
+
+<p>It runs a client which updates the <code>kube-state-metrics</code> deployment. But the
+client uses outdated API which lacks <code>Tolerations</code> in <code>PodSpec</code>. As result
+the updated deployment looses tolerations in its pod template. The deployment
+controller recreates <code>ReplicaSet</code>. The pods controlled by the new <code>ReplicaSet</code>
+lack tolerations as well and fail to run on the tainted node.</p>
+        </div>
+    </section>
+</article>
+
+
+
+    
+      <footer class="page-footer grey lighten-5">
+    <div class="row max-width">
+        <div class="col s12 l10 offset-l1 clear-padding">
+            <div class="row">
+    
+        
+    
+
+    
+    
+    <div class="col s12 l12">
+        
+    </div>
+
+    
+</div>
+
+
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="row max-width" style="width: 100%;">
+            <div class="col s12 l10 offset-l1">
+                <span class="grey-text text-darken-4">© 2018 Дмитрий Рожков</span>
+<div class="right">
+    
+<ul id="dropdown-languages" class="dropdown-content">
+    
+    <li>
+        <a class="dropdown-item black-text" href="https://rojkov.github.io/">English</a>
+    </li>
+    
+    <li>
+        <a class="dropdown-item black-text" href="https://rojkov.github.io/ru/">Русский</a>
+    </li>
+    
+</ul>
+<a class="dropdown-button black-text" href="#!" data-activates="dropdown-languages">Русский
+    <i class="material-icons right">arrow_drop_down</i>
+</a>
+
+</div>
+            </div>
+        </div>
+    </div>
+</footer>
+    
+
+    
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <script src="https://rojkov.github.io/js/script.js"></script>
+  </body>
+</html>

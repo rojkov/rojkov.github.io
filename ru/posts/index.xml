@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Дмитрий Рожков</title>
-    <link>https://rojkov.github.io/ru/</link>
-    <description>Recent content on Дмитрий Рожков</description>
+    <title>Posts on Дмитрий Рожков</title>
+    <link>https://rojkov.github.io/ru/posts/</link>
+    <description>Recent content in Posts on Дмитрий Рожков</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© 2018 Дмитрий Рожков</copyright>
     <lastBuildDate>Sun, 09 Sep 2018 16:23:22 +0300</lastBuildDate>
     
-	<atom:link href="https://rojkov.github.io/ru/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://rojkov.github.io/ru/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -39,15 +39,6 @@ Kubernetes. Искал что бы такое починить в целях п�
 потом проще будет найти. И, может быть, кому-то ещё пригодится.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Контакты</title>
-      <link>https://rojkov.github.io/ru/page/about/</link>
-      <pubDate>Thu, 05 Sep 2013 20:20:10 +0300</pubDate>
-      
-      <guid>https://rojkov.github.io/ru/page/about/</guid>
-      <description>Я регулярно проверяю ящик dmitry.rojkov@gmail.com.</description>
     </item>
     
   </channel>

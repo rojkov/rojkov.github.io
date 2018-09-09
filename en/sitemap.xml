@@ -3,6 +3,21 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://rojkov.github.io/posts/a-case-of-debugging-kubernetes-deployment/</loc>
+    <lastmod>2018-09-09T16:23:22+03:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://rojkov.github.io/ru/posts/a-case-of-debugging-kubernetes-deployment/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://rojkov.github.io/posts/a-case-of-debugging-kubernetes-deployment/"
+                />
+  </url>
+  
+  <url>
     <loc>https://rojkov.github.io/posts/how-to-configure-devel-environment-to-work-on-gecko-for-sailfishos/</loc>
     <lastmod>2014-03-20T15:44:36+03:00</lastmod>
   </url>
@@ -49,7 +64,7 @@
   
   <url>
     <loc>https://rojkov.github.io/</loc>
-    <lastmod>2014-03-20T15:44:36+03:00</lastmod>
+    <lastmod>2018-09-09T16:23:22+03:00</lastmod>
     <priority>0</priority>
     <xhtml:link
                 rel="alternate"
@@ -81,8 +96,18 @@
   
   <url>
     <loc>https://rojkov.github.io/posts/</loc>
-    <lastmod>2014-03-20T15:44:36+03:00</lastmod>
+    <lastmod>2018-09-09T16:23:22+03:00</lastmod>
     <priority>0</priority>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://rojkov.github.io/ru/posts/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://rojkov.github.io/posts/"
+                />
   </url>
   
   <url>

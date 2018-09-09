@@ -9,7 +9,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://rojkov.github.io/posts/" />
-<meta property="og:updated_time" content="2014-03-20T15:44:36&#43;03:00"/>
+<meta property="og:updated_time" content="2018-09-09T16:23:22&#43;03:00"/>
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Posts"/>
 <meta name="twitter:description" content=""/>
@@ -97,6 +97,46 @@
 
     
 
+
+
+
+    
+        <article class="row max-width">
+    <div class="col s12 l10 offset-l1">
+        <h3>
+            <a class="grey-text text-darken-3" href="/posts/a-case-of-debugging-kubernetes-deployment/">A Case of Debugging Kubernetes Deployment</a>
+        </h3>
+        <div>
+
+<p class="article-meta">
+    <div class="article-meta-container">
+        <div class="article-meta-author-name"></div>
+        <div class="article-meta-description"></div>
+    </div>
+    <span class="article-meta-published-at grey-text text-darken-1">Sep 9, 2018</span>
+</p></div>
+        <div><p>When looking for a Kubernetes issue I could investigate I stumbled upon
+this <a href="https://github.com/kubernetes/kubernetes/issues/67515">problem</a>.
+The title should have been worded as something like &laquo;A new mysterious
+<code>ReplicaSet</code> replaces the original one soon after its <code>Deployment</code> has
+been created&raquo;. What&rsquo;s important is that this new <code>ReplicaSet</code> fails
+to start.</p>
+
+<p>In hindsight the case seems rather trivial, but at the time I saw the
+issue it didn&rsquo;t feel like that. The first suspect was the code of
+Kubernetes mistakenly firing up an unneeded <code>ReplicaSet</code>, thus I needed
+a way to hunt down the culprit in the code.</p>
+
+<p>How do people debug such issues? Isn&rsquo;t there a proven methodology, a more
+or less systematic approach to solving similar puzzles. I&rsquo;m not aware
+of any. <a href="https://github.com/kubernetes/kubernetes/issues/67515#issuecomment-415481314">Not only me</a>
+is asking such questions it seems. So, I decided to copy my comment
+from the issue discussion to this blog.</p>
+
+<p></p></div>
+    </div>
+</article>
+    
 
 
 
