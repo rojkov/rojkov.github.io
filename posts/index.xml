@@ -13,11 +13,11 @@
     
     
     <item>
-      <title>A Case of Debugging Kubernetes Deployment</title>
-      <link>https://rojkov.github.io/posts/a-case-of-debugging-kubernetes-deployment/</link>
+      <title>Debugging a Kubernetes Deployment</title>
+      <link>https://rojkov.github.io/posts/debugging-kubernetes-deployment/</link>
       <pubDate>Sun, 09 Sep 2018 16:23:22 +0300</pubDate>
       
-      <guid>https://rojkov.github.io/posts/a-case-of-debugging-kubernetes-deployment/</guid>
+      <guid>https://rojkov.github.io/posts/debugging-kubernetes-deployment/</guid>
       <description>&lt;p&gt;When looking for a Kubernetes issue I could investigate I stumbled upon
 this &lt;a href=&#34;https://github.com/kubernetes/kubernetes/issues/67515&#34;&gt;problem&lt;/a&gt;.
 The title should have been worded as something like &amp;laquo;A new mysterious

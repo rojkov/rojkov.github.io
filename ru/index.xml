@@ -14,10 +14,10 @@
     
     <item>
       <title>Пример отладки экземпляра Deployment в Kubernetes</title>
-      <link>https://rojkov.github.io/ru/posts/a-case-of-debugging-kubernetes-deployment/</link>
+      <link>https://rojkov.github.io/ru/posts/debugging-kubernetes-deployment/</link>
       <pubDate>Sun, 09 Sep 2018 16:23:22 +0300</pubDate>
       
-      <guid>https://rojkov.github.io/ru/posts/a-case-of-debugging-kubernetes-deployment/</guid>
+      <guid>https://rojkov.github.io/ru/posts/debugging-kubernetes-deployment/</guid>
       <description>&lt;p&gt;Не так давно я просматривал список багрепортов в репозитории
 Kubernetes. Искал что бы такое починить в целях повышения собственной
 заметности в сообществе. И наткнулся

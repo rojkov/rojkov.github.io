@@ -3,17 +3,17 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://rojkov.github.io/ru/posts/a-case-of-debugging-kubernetes-deployment/</loc>
+    <loc>https://rojkov.github.io/ru/posts/debugging-kubernetes-deployment/</loc>
     <lastmod>2018-09-09T16:23:22+03:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://rojkov.github.io/posts/a-case-of-debugging-kubernetes-deployment/"
+                href="https://rojkov.github.io/posts/debugging-kubernetes-deployment/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="ru"
-                href="https://rojkov.github.io/ru/posts/a-case-of-debugging-kubernetes-deployment/"
+                href="https://rojkov.github.io/ru/posts/debugging-kubernetes-deployment/"
                 />
   </url>
   
