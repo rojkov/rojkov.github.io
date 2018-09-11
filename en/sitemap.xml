@@ -48,10 +48,6 @@
   </url>
   
   <url>
-    <loc>https://rojkov.github.io/pages/about/</loc>
-  </url>
-  
-  <url>
     <loc>https://rojkov.github.io/categories/</loc>
     <priority>0</priority>
     <xhtml:link
@@ -96,11 +92,6 @@
                 hreflang="en"
                 href="https://rojkov.github.io/page/"
                 />
-  </url>
-  
-  <url>
-    <loc>https://rojkov.github.io/pages/</loc>
-    <priority>0</priority>
   </url>
   
   <url>
