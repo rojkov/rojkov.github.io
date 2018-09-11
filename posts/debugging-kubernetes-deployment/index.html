@@ -212,8 +212,9 @@ with this command</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ git grep Deployments | grep <span style="color:#d14">&#34;Update(&#34;</span></code></pre></div>
 <p>There are only few places in Kubernetes where <code>Deployment</code>s get updated,
 but none looks relevant. This leads to the hypothesis that the source of
-the update is somewhere outside of Kubernetes.</p></li>
+the update is somewhere outside of Kubernetes.</p>
 
+<ol>
 <li><p>Take a closer look at the YAML files. They seem to be quite complex.</p></li>
 
 <li><p>Try to make the setup as simple as possible where the issue is still
@@ -244,7 +245,8 @@ used in <code>addon-resizer:1.0</code> confirms it.</p></li>
 client uses outdated API which lacks <code>Tolerations</code> in <code>PodSpec</code>. As result
 the updated deployment looses tolerations in its pod template. The deployment
 controller recreates <code>ReplicaSet</code>. The pods controlled by the new <code>ReplicaSet</code>
-lack tolerations as well and fail to run on the tainted node.</p>
+lack tolerations as well and fail to run on the tainted node.</p></li>
+</ol>
         </div>
     </section>
 </article>

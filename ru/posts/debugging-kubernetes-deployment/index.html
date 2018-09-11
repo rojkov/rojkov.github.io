@@ -231,8 +231,9 @@ Kubernetes. Искал что бы такое починить в целях п�
 обновляются, но ни одно из них не выглядит подозрительным.
 Это, наконец-то, приводит нас к давно напрашивающемуся выводу о том,
 что источник изменений объекта находится где-то за пределами кода
-самого Кубернетиса.</p></li>
+самого Кубернетиса.</p>
 
+<ol>
 <li><p>Посмотреть внимательно на YAML-файлы. Нет ли там чего-нибудь
 интересного. Однако в этих файлах интересного слишком много -
 глаза разбегаются. А значит следует</p></li>
@@ -268,7 +269,8 @@ used in <code>addon-resizer:1.0</code> confirms it.</p></li>
 client uses outdated API which lacks <code>Tolerations</code> in <code>PodSpec</code>. As result
 the updated deployment looses tolerations in its pod template. The deployment
 controller recreates <code>ReplicaSet</code>. The pods controlled by the new <code>ReplicaSet</code>
-lack tolerations as well and fail to run on the tainted node.</p>
+lack tolerations as well and fail to run on the tainted node.</p></li>
+</ol>
         </div>
     </section>
 </article>

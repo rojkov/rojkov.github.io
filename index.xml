@@ -92,5 +92,14 @@ embedding API (also known as IPCLiteAPI) for Gecko.&lt;/p&gt;
       <description>You can reach me by sending a message to dmitry.rojkov@gmail.com.</description>
     </item>
     
+    <item>
+      <title></title>
+      <link>https://rojkov.github.io/pages/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://rojkov.github.io/pages/about/</guid>
+      <description>About test</description>
+    </item>
+    
   </channel>
 </rss>
