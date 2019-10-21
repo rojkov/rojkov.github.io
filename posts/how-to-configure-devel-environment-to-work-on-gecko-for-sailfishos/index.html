@@ -8,20 +8,17 @@
 <meta property="og:title" content="How to Configure Devel Environment to Work on Gecko for Sailfishos" />
 <meta property="og:description" content="It turned out that newcomers have difficulties with setting up their development
 environment to work on Gecko integration with Nemo, SailfishOS or any other
-Mer-based Linux. Hence this post.
-
-" />
+Mer-based Linux. Hence this post." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://rojkov.github.io/posts/how-to-configure-devel-environment-to-work-on-gecko-for-sailfishos/" /><meta property="article:published_time" content="2014-03-20T15:44:36&#43;03:00"/>
-<meta property="article:modified_time" content="2014-03-20T15:44:36&#43;03:00"/>
+<meta property="og:url" content="https://rojkov.github.io/posts/how-to-configure-devel-environment-to-work-on-gecko-for-sailfishos/" />
+<meta property="article:published_time" content="2014-03-20T15:44:36+03:00" />
+<meta property="article:modified_time" content="2014-03-20T15:44:36+03:00" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="How to Configure Devel Environment to Work on Gecko for Sailfishos"/>
 <meta name="twitter:description" content="It turned out that newcomers have difficulties with setting up their development
 environment to work on Gecko integration with Nemo, SailfishOS or any other
-Mer-based Linux. Hence this post.
-
-"/>
+Mer-based Linux. Hence this post."/>
 
 
     <meta name="description" content="">
@@ -133,8 +130,6 @@ Mer-based Linux. Hence this post.
 environment to work on Gecko integration with Nemo, SailfishOS or any other
 Mer-based Linux. Hence this post.</p>
 
-<p></p>
-
 <h3 id="configure-development-environment">Configure development environment</h3>
 
 <p>Gecko engine development for embedded devices is quite resource consuming.
@@ -153,8 +148,8 @@ but below is an extarct from there:</p>
 MerSDK$ <span style="color:#0086b3">cd</span> /tmp</code></pre></div>
 <p>Now in the current directory (which is /tmp) create a file <code>mer-target-armv7hl.ks</code>
 with the following content:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#998;font-style:italic"># -*-mic2-options-*- --arch=armv7hl -*-mic2-options-*-
-</span><span style="color:#998;font-style:italic"></span>lang en_US.UTF-8
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#998;font-style:italic"># -*-mic2-options-*- --arch=armv7hl -*-mic2-options-*-</span>
+lang en_US.UTF-8
 keyboard us
 timezone --utc UTC
 part / --size <span style="color:#099">500</span> --ondisk sda --fstype<span style="color:#000;font-weight:bold">=</span>ext4
@@ -175,23 +170,23 @@ zypper
 %end
 
 %post
-<span style="color:#998;font-style:italic">## rpm-rebuilddb.post from mer-kickstarter-configs package
-</span><span style="color:#998;font-style:italic"># Rebuild db using target&#39;s rpm
-</span><span style="color:#998;font-style:italic"></span><span style="color:#0086b3">echo</span> -n <span style="color:#d14">&#34;Rebuilding db using target rpm..&#34;</span>
+<span style="color:#998;font-style:italic">## rpm-rebuilddb.post from mer-kickstarter-configs package</span>
+<span style="color:#998;font-style:italic"># Rebuild db using target&#39;s rpm</span>
+<span style="color:#0086b3">echo</span> -n <span style="color:#d14">&#34;Rebuilding db using target rpm..&#34;</span>
 rm -f /var/lib/rpm/__db*
 rpm --rebuilddb
 <span style="color:#0086b3">echo</span> <span style="color:#d14">&#34;done&#34;</span>
-<span style="color:#998;font-style:italic">## end rpm-rebuilddb.post
-</span><span style="color:#998;font-style:italic"></span>
-<span style="color:#998;font-style:italic">## arch-armv7hl.post from mer-kickstarter-configs package
-</span><span style="color:#998;font-style:italic"># Without this line the rpm don&#39;t get the architecture right.
-</span><span style="color:#998;font-style:italic"></span><span style="color:#0086b3">echo</span> -n <span style="color:#d14">&#39;armv7hl-meego-linux&#39;</span> &gt; /etc/rpm/platform
+<span style="color:#998;font-style:italic">## end rpm-rebuilddb.post</span>
 
-<span style="color:#998;font-style:italic"># Also libzypp has problems in autodetecting the architecture so we force tha as well.
-</span><span style="color:#998;font-style:italic"># https://bugs.meego.com/show_bug.cgi?id=11484
-</span><span style="color:#998;font-style:italic"></span><span style="color:#0086b3">echo</span> <span style="color:#d14">&#39;arch = armv7hl&#39;</span> &gt;&gt; /etc/zypp/zypp.conf
-<span style="color:#998;font-style:italic">## end arch-armv7hl.post
-</span><span style="color:#998;font-style:italic"></span>
+<span style="color:#998;font-style:italic">## arch-armv7hl.post from mer-kickstarter-configs package</span>
+<span style="color:#998;font-style:italic"># Without this line the rpm don&#39;t get the architecture right.</span>
+<span style="color:#0086b3">echo</span> -n <span style="color:#d14">&#39;armv7hl-meego-linux&#39;</span> &gt; /etc/rpm/platform
+
+<span style="color:#998;font-style:italic"># Also libzypp has problems in autodetecting the architecture so we force tha as well.</span>
+<span style="color:#998;font-style:italic"># https://bugs.meego.com/show_bug.cgi?id=11484</span>
+<span style="color:#0086b3">echo</span> <span style="color:#d14">&#39;arch = armv7hl&#39;</span> &gt;&gt; /etc/zypp/zypp.conf
+<span style="color:#998;font-style:italic">## end arch-armv7hl.post</span>
+
 %end</code></pre></div>
 <p>Then create a target:</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">MerSDK$ sudo mic create fs mer-target-armv7hl.ks -o /parentroot/srv/mer/targets <span style="color:#d14">\

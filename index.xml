@@ -34,9 +34,7 @@ a way to hunt down the culprit in the code.&lt;/p&gt;
 or less systematic approach to solving similar puzzles. I&amp;rsquo;m not aware
 of any. &lt;a href=&#34;https://github.com/kubernetes/kubernetes/issues/67515#issuecomment-415481314&#34;&gt;Not only me&lt;/a&gt;
 is asking such questions it seems. So, I decided to copy my comment
-from the issue discussion to this blog.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+from the issue discussion to this blog.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -47,9 +45,7 @@ from the issue discussion to this blog.&lt;/p&gt;
       <guid>https://rojkov.github.io/posts/how-to-configure-devel-environment-to-work-on-gecko-for-sailfishos/</guid>
       <description>&lt;p&gt;It turned out that newcomers have difficulties with setting up their development
 environment to work on Gecko integration with Nemo, SailfishOS or any other
-Mer-based Linux. Hence this post.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+Mer-based Linux. Hence this post.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -60,9 +56,7 @@ Mer-based Linux. Hence this post.&lt;/p&gt;
       <guid>https://rojkov.github.io/posts/embedlite-initialization/</guid>
       <description>&lt;p&gt;I guess some people may find useful the couple of words below on how
 EmbedLite embedding is initialized. I&amp;rsquo;ve written them mostly because I&amp;rsquo;m trying
-to wrap my head around the topic myself. So please let me know if you see non-sense.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+to wrap my head around the topic myself. So please let me know if you see non-sense.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -78,9 +72,7 @@ the browser application for Sailfish OS.&lt;/p&gt;
 which is developed by Mozilla corp. and is used in their Firefox browser and
 Firefox OS. For some reason it&amp;rsquo;s not that known that the Sailfish browser is
 built upon the &lt;a href=&#34;https://github.com/tmeshkova/gecko-dev/tree/embedlite/embedding/embedlite&#34;&gt;EmbedLite&lt;/a&gt;
-embedding API (also known as IPCLiteAPI) for Gecko.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+embedding API (also known as IPCLiteAPI) for Gecko.&lt;/p&gt;</description>
     </item>
     
     <item>

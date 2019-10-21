@@ -3,6 +3,36 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://rojkov.github.io/ru/posts/</loc>
+    <lastmod>2018-09-09T16:23:22+03:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://rojkov.github.io/posts/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://rojkov.github.io/ru/posts/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://rojkov.github.io/ru/</loc>
+    <lastmod>2018-09-09T16:23:22+03:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://rojkov.github.io/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://rojkov.github.io/ru/"
+                />
+  </url>
+  
+  <url>
     <loc>https://rojkov.github.io/ru/posts/debugging-kubernetes-deployment/</loc>
     <lastmod>2018-09-09T16:23:22+03:00</lastmod>
     <xhtml:link
@@ -14,6 +44,21 @@
                 rel="alternate"
                 hreflang="ru"
                 href="https://rojkov.github.io/ru/posts/debugging-kubernetes-deployment/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://rojkov.github.io/ru/page/</loc>
+    <lastmod>2013-09-05T20:20:10+03:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://rojkov.github.io/page/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://rojkov.github.io/ru/page/"
                 />
   </url>
   
@@ -34,7 +79,6 @@
   
   <url>
     <loc>https://rojkov.github.io/ru/categories/</loc>
-    <priority>0</priority>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -48,40 +92,7 @@
   </url>
   
   <url>
-    <loc>https://rojkov.github.io/ru/page/</loc>
-    <lastmod>2013-09-05T20:20:10+03:00</lastmod>
-    <priority>0</priority>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://rojkov.github.io/page/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ru"
-                href="https://rojkov.github.io/ru/page/"
-                />
-  </url>
-  
-  <url>
-    <loc>https://rojkov.github.io/ru/posts/</loc>
-    <lastmod>2018-09-09T16:23:22+03:00</lastmod>
-    <priority>0</priority>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://rojkov.github.io/posts/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ru"
-                href="https://rojkov.github.io/ru/posts/"
-                />
-  </url>
-  
-  <url>
     <loc>https://rojkov.github.io/ru/tags/</loc>
-    <priority>0</priority>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -91,22 +102,6 @@
                 rel="alternate"
                 hreflang="ru"
                 href="https://rojkov.github.io/ru/tags/"
-                />
-  </url>
-  
-  <url>
-    <loc>https://rojkov.github.io/ru/</loc>
-    <lastmod>2018-09-09T16:23:22+03:00</lastmod>
-    <priority>0</priority>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://rojkov.github.io/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ru"
-                href="https://rojkov.github.io/ru/"
                 />
   </url>
   
