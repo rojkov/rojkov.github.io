@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Dmitry&amp;nbsp;Rozhkov</title>
@@ -7,10 +7,29 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© 2018 Dmitry Rozhkov</copyright>
-    <lastBuildDate>Sun, 09 Sep 2018 16:23:22 +0300</lastBuildDate>
+    <lastBuildDate>Mon, 21 Oct 2019 20:29:00 +0300</lastBuildDate>
     
 	<atom:link href="https://rojkov.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>How Maemo Products Were Developed</title>
+      <link>https://rojkov.github.io/posts/how-maemo-products-were-developed/</link>
+      <pubDate>Mon, 21 Oct 2019 20:29:00 +0300</pubDate>
+      
+      <guid>https://rojkov.github.io/posts/how-maemo-products-were-developed/</guid>
+      <description>&lt;p&gt;Any project that goes beyond being a mere personal hobby is always a
+collective effort where people work in concert. And these people
+working in concert is the foundation on which any product is built.
+Means of production are useless without people, but people need to
+be organized, their relations have to be structured to transform
+the collective effort into a meaningful outcome.&lt;/p&gt;
+
+&lt;p&gt;I used to be a part of the &lt;a href=&#34;https://en.wikipedia.org/wiki/Maemo&#34;&gt;Maemo&lt;/a&gt;
+project at Nokia. In this post I&amp;rsquo;d like to write down what I still remember
+about the ways the products like &lt;a href=&#34;https://en.wikipedia.org/wiki/Nokia_N9&#34;&gt;Nokia N9&lt;/a&gt;
+were developed.&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Debugging a Kubernetes Deployment</title>
