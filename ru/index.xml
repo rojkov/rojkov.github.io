@@ -1,51 +1,23 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Дмитрий&amp;nbsp;Рожков</title>
+    <title>Дмитрий Рожков</title>
     <link>https://rojkov.github.io/ru/</link>
-    <description>Recent content on Дмитрий&amp;nbsp;Рожков</description>
+    <description>Recent content on Дмитрий Рожков</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>© 2018 Дмитрий Рожков</copyright>
+    <copyright>© 2019 Дмитрий Рожков</copyright>
     <lastBuildDate>Sun, 09 Sep 2018 16:23:22 +0300</lastBuildDate>
     
-	<atom:link href="https://rojkov.github.io/ru/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="https://rojkov.github.io/ru/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Пример отладки экземпляра Deployment в Kubernetes</title>
-      <link>https://rojkov.github.io/ru/posts/debugging-kubernetes-deployment/</link>
+      <title>Posts</title>
+      <link>https://rojkov.github.io/ru/posts/</link>
       <pubDate>Sun, 09 Sep 2018 16:23:22 +0300</pubDate>
       
-      <guid>https://rojkov.github.io/ru/posts/debugging-kubernetes-deployment/</guid>
-      <description>&lt;p&gt;Не так давно я просматривал список багрепортов в репозитории
-Kubernetes. Искал что бы такое починить в целях повышения собственной
-заметности в сообществе. И наткнулся
-&lt;a href=&#34;https://github.com/kubernetes/kubernetes/issues/67515&#34;&gt;на отчёт&lt;/a&gt;,
-который следовало бы озаглавить как &amp;laquo;Таинственное обновление
-&lt;code&gt;ReplicaSet&lt;/code&gt; в &lt;code&gt;Deployment&lt;/code&gt;, которое его ломает&amp;raquo;.&lt;/p&gt;
-
-&lt;p&gt;Сейчас причина сбоя видится тривиальной, если подумать, а не использовать
-накопившиеся условные рефлексы. Но в тот момент задача показалась
-не столь простой, а от того - интересной. И я решил ею заняться.&lt;/p&gt;
-
-&lt;p&gt;Раз отчёт об ошибке появился на багтрекере Кубернетиса, то и проблема
-скорее всего в самом Кубернетисе, наивно подумал я. Но как вообще
-люди решают подобные задачи? Нет ли уже готовой методологии для этого?
-Лично я ничего подобного не встречал, но, похоже,
-&lt;a href=&#34;https://github.com/kubernetes/kubernetes/issues/67515#issuecomment-415481314&#34;&gt;не я один&lt;/a&gt;
-задаюсь такими вопросами. А потому я решил скопировать свой
-комментарий на эту тему из обсуждения отчёта сюда. Так мне его
-потом проще будет найти. И, может быть, кому-то ещё пригодится.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Контакты</title>
-      <link>https://rojkov.github.io/ru/page/about/</link>
-      <pubDate>Thu, 05 Sep 2013 20:20:10 +0300</pubDate>
-      
-      <guid>https://rojkov.github.io/ru/page/about/</guid>
-      <description>Я регулярно проверяю ящик dmitry.rojkov@gmail.com.</description>
+      <guid>https://rojkov.github.io/ru/posts/</guid>
+      <description></description>
     </item>
     
   </channel>

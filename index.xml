@@ -1,106 +1,23 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Dmitry&amp;nbsp;Rozhkov</title>
+    <title>Dmitry Rozhkov</title>
     <link>https://rojkov.github.io/</link>
-    <description>Recent content on Dmitry&amp;nbsp;Rozhkov</description>
+    <description>Recent content on Dmitry Rozhkov</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>© 2018 Dmitry Rozhkov</copyright>
+    <copyright>© 2019 Dmitry Rozhkov</copyright>
     <lastBuildDate>Mon, 21 Oct 2019 20:29:00 +0300</lastBuildDate>
     
-	<atom:link href="https://rojkov.github.io/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="https://rojkov.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>How Maemo Products Were Developed</title>
-      <link>https://rojkov.github.io/posts/how-maemo-products-were-developed/</link>
+      <title>Posts</title>
+      <link>https://rojkov.github.io/posts/</link>
       <pubDate>Mon, 21 Oct 2019 20:29:00 +0300</pubDate>
       
-      <guid>https://rojkov.github.io/posts/how-maemo-products-were-developed/</guid>
-      <description>&lt;p&gt;Any project that goes beyond being a mere personal hobby is always a
-collective effort where people work in concert. And these people
-working in concert is the foundation on which any product is built.
-Means of production are useless without people, but people need to
-be organized, their relations have to be structured to transform
-the collective effort into a meaningful outcome.&lt;/p&gt;
-
-&lt;p&gt;I used to be a part of the &lt;a href=&#34;https://en.wikipedia.org/wiki/Maemo&#34;&gt;Maemo&lt;/a&gt;
-project at Nokia. In this post I&amp;rsquo;d like to write down what I still remember
-about the ways the products like &lt;a href=&#34;https://en.wikipedia.org/wiki/Nokia_N9&#34;&gt;Nokia N9&lt;/a&gt;
-were developed.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Debugging a Kubernetes Deployment</title>
-      <link>https://rojkov.github.io/posts/debugging-kubernetes-deployment/</link>
-      <pubDate>Sun, 09 Sep 2018 16:23:22 +0300</pubDate>
-      
-      <guid>https://rojkov.github.io/posts/debugging-kubernetes-deployment/</guid>
-      <description>&lt;p&gt;When looking for a Kubernetes issue I could investigate I stumbled upon
-this &lt;a href=&#34;https://github.com/kubernetes/kubernetes/issues/67515&#34;&gt;problem&lt;/a&gt;.
-The title should have been worded as something like &amp;laquo;A new mysterious
-&lt;code&gt;ReplicaSet&lt;/code&gt; replaces the original one soon after its &lt;code&gt;Deployment&lt;/code&gt; has
-been created&amp;raquo;. What&amp;rsquo;s important is that this new &lt;code&gt;ReplicaSet&lt;/code&gt; fails
-to start.&lt;/p&gt;
-
-&lt;p&gt;In hindsight the case seems rather trivial, but at the time I saw the
-issue it didn&amp;rsquo;t feel like that. The first suspect was the code of
-Kubernetes mistakenly firing up an unneeded &lt;code&gt;ReplicaSet&lt;/code&gt;, thus I needed
-a way to hunt down the culprit in the code.&lt;/p&gt;
-
-&lt;p&gt;How do people debug such issues? Isn&amp;rsquo;t there a proven methodology, a more
-or less systematic approach to solving similar puzzles. I&amp;rsquo;m not aware
-of any. &lt;a href=&#34;https://github.com/kubernetes/kubernetes/issues/67515#issuecomment-415481314&#34;&gt;Not only me&lt;/a&gt;
-is asking such questions it seems. So, I decided to copy my comment
-from the issue discussion to this blog.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>How to Configure Devel Environment to Work on Gecko for Sailfishos</title>
-      <link>https://rojkov.github.io/posts/how-to-configure-devel-environment-to-work-on-gecko-for-sailfishos/</link>
-      <pubDate>Thu, 20 Mar 2014 15:44:36 +0300</pubDate>
-      
-      <guid>https://rojkov.github.io/posts/how-to-configure-devel-environment-to-work-on-gecko-for-sailfishos/</guid>
-      <description>&lt;p&gt;It turned out that newcomers have difficulties with setting up their development
-environment to work on Gecko integration with Nemo, SailfishOS or any other
-Mer-based Linux. Hence this post.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>EmbedLite Initialization</title>
-      <link>https://rojkov.github.io/posts/embedlite-initialization/</link>
-      <pubDate>Sun, 02 Mar 2014 15:08:04 +0300</pubDate>
-      
-      <guid>https://rojkov.github.io/posts/embedlite-initialization/</guid>
-      <description>&lt;p&gt;I guess some people may find useful the couple of words below on how
-EmbedLite embedding is initialized. I&amp;rsquo;ve written them mostly because I&amp;rsquo;m trying
-to wrap my head around the topic myself. So please let me know if you see non-sense.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>What&#39;s Behind Sailfish Browser</title>
-      <link>https://rojkov.github.io/posts/whats-behind-sailfish-browser/</link>
-      <pubDate>Sun, 09 Feb 2014 14:07:14 +0300</pubDate>
-      
-      <guid>https://rojkov.github.io/posts/whats-behind-sailfish-browser/</guid>
-      <description>&lt;p&gt;In this post I&amp;rsquo;d like to shade some light on what technology is used in
-the browser application for Sailfish OS.&lt;/p&gt;
-
-&lt;p&gt;By now it&amp;rsquo;s a widely known fact that the browser is based on the Gecko engine
-which is developed by Mozilla corp. and is used in their Firefox browser and
-Firefox OS. For some reason it&amp;rsquo;s not that known that the Sailfish browser is
-built upon the &lt;a href=&#34;https://github.com/tmeshkova/gecko-dev/tree/embedlite/embedding/embedlite&#34;&gt;EmbedLite&lt;/a&gt;
-embedding API (also known as IPCLiteAPI) for Gecko.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>About</title>
-      <link>https://rojkov.github.io/page/about/</link>
-      <pubDate>Thu, 05 Sep 2013 20:20:10 +0300</pubDate>
-      
-      <guid>https://rojkov.github.io/page/about/</guid>
-      <description>You can reach me by sending a message to dmitry.rojkov@gmail.com.</description>
+      <guid>https://rojkov.github.io/posts/</guid>
+      <description></description>
     </item>
     
   </channel>

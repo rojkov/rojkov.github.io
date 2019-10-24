@@ -1,163 +1,126 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-<meta http-equiv="x-ua-compatible" content="ie=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<html class="no-js" lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="generator" content="Hugo 0.59.0" />
+        <title> Пример отладки экземпляра Deployment в Kubernetes | Дмитрий Рожков</title>
+        <meta name="description" content="Пример отладки экземпляра Deployment в Kubernetes - %!s(&lt;nil&gt;)">
+        <meta itemprop="name" content="Пример отладки экземпляра Deployment в Kubernetes">
+        <meta itemprop="description" content="Пример отладки экземпляра Deployment в Kubernetes - %!s(&lt;nil&gt;)">
+        <meta property="og:title" content="Пример отладки экземпляра Deployment в Kubernetes">
+        <meta property="og:description" content="Пример отладки экземпляра Deployment в Kubernetes - %!s(&lt;nil&gt;)">
+        <meta property="og:image" content="https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?size=200">
+        <meta property="og:url" content="https://rojkov.github.io/ru/posts/debugging-kubernetes-deployment/">
+        <meta property="og:site_name" content="Дмитрий Рожков">
+        <meta property="og:type" content="article">
+        <link rel="icon" type="image/png" href="https://rojkov.github.io/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="https://rojkov.github.io/favicon-16x16.png" sizes="16x16">
 
-<meta property="og:title" content="Пример отладки экземпляра Deployment в Kubernetes" />
-<meta property="og:description" content="Не так давно я просматривал список багрепортов в репозитории
-Kubernetes. Искал что бы такое починить в целях повышения собственной
-заметности в сообществе. И наткнулся
-на отчёт,
-который следовало бы озаглавить как &laquo;Таинственное обновление
-ReplicaSet в Deployment, которое его ломает&raquo;.
+	
+	  <link href="/ru/posts/debugging-kubernetes-deployment/" rel="alternate" type="application/rss+xml" title="Дмитрий Рожков" />
+	  <link href="/ru/posts/debugging-kubernetes-deployment/" rel="feed" type="application/rss+xml" title="Дмитрий Рожков" />
+	
 
-Сейчас причина сбоя видится тривиальной, если подумать, а не использовать
-накопившиеся условные рефлексы. Но в тот момент задача показалась
-не столь простой, а от того - интересной. И я решил ею заняться.
+        
+        
+        
+        
+        <link rel="stylesheet" href="/sass/combined.min.2072f0ef1b87081e9ca5011a6a085bb666600ca54c1aa4d1e43a7c03b09b3cf7.css">
 
-Раз отчёт об ошибке появился на багтрекере Кубернетиса, то и проблема
-скорее всего в самом Кубернетисе, наивно подумал я. Но как вообще
-люди решают подобные задачи? Нет ли уже готовой методологии для этого?
-Лично я ничего подобного не встречал, но, похоже,
-не я один
-задаюсь такими вопросами. А потому я решил скопировать свой
-комментарий на эту тему из обсуждения отчёта сюда. Так мне его
-потом проще будет найти. И, может быть, кому-то ещё пригодится." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://rojkov.github.io/ru/posts/debugging-kubernetes-deployment/" />
-<meta property="article:published_time" content="2018-09-09T16:23:22+03:00" />
-<meta property="article:modified_time" content="2018-09-09T16:23:22+03:00" /><meta property="og:site_name" content="Дмитрий&amp;nbsp;Рожков" />
+        
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Пример отладки экземпляра Deployment в Kubernetes"/>
-<meta name="twitter:description" content="Не так давно я просматривал список багрепортов в репозитории
-Kubernetes. Искал что бы такое починить в целях повышения собственной
-заметности в сообществе. И наткнулся
-на отчёт,
-который следовало бы озаглавить как &laquo;Таинственное обновление
-ReplicaSet в Deployment, которое его ломает&raquo;.
+        
+    </head>
+    <body class="bilberry-hugo-theme">
+        
+<nav>
 
-Сейчас причина сбоя видится тривиальной, если подумать, а не использовать
-накопившиеся условные рефлексы. Но в тот момент задача показалась
-не столь простой, а от того - интересной. И я решил ею заняться.
-
-Раз отчёт об ошибке появился на багтрекере Кубернетиса, то и проблема
-скорее всего в самом Кубернетисе, наивно подумал я. Но как вообще
-люди решают подобные задачи? Нет ли уже готовой методологии для этого?
-Лично я ничего подобного не встречал, но, похоже,
-не я один
-задаюсь такими вопросами. А потому я решил скопировать свой
-комментарий на эту тему из обсуждения отчёта сюда. Так мне его
-потом проще будет найти. И, может быть, кому-то ещё пригодится."/>
-
-
-    <meta name="description" content="">
-    <link rel="canonical" href="https://rojkov.github.io/ru/posts/debugging-kubernetes-deployment/">
-
-    
-    <title>Пример отладки экземпляра Deployment в Kubernetes &middot; Дмитрий&nbsp;Рожков</title>
-
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link href="https://rojkov.github.io/css/style.css" rel="stylesheet">
-
-    
-
-    
-
-    
-  </head>
-  <body>
-    
-      
-
-
-
-<nav class="white" role="navigation">
-    <div class="row max-width">
-        <div class="col s12 l10 offset-l1">
+    <div class="container">
+        <ul class="topnav">
             
-            <a href="#" data-target="nav-mobile" class="sidenav-trigger black-text">
-                <i class="material-icons">menu</i>
-            </a>
-
-            
-            <ul id="nav-mobile" class="sidenav">
                 
+                    <li><a href="https://rojkov.github.io/ru/page/about/">Контакты</a></li>
                 
-    
-        
             
-<li>
-    <a class="black-text" href="/ru/page/about/">Контакты</a>
-</li>
+        </ul>
 
         
-    
-    
-
-            </ul>
-
-            
-            <a href="/ru" class="brand-logo grey-text text-darken-3">Дмитрий&nbsp;Рожков
-</a>
-
-            
-            <div class="nav-wrapper">
-
-                
-                <ul class="right hide-on-med-and-down">
-                    
-                    
-    
-        
-            
-<li>
-    <a class="black-text" href="/ru/page/about/">Контакты</a>
-</li>
-
-        
-    
-    
-
-                </ul>
-
-            </div>
-        </div>
     </div>
 </nav>
-    
 
-    
 
-<article class="max-width">
-    
-    <section class="row">
-        <div class="col s12 m10 offset-m1 l10 offset-l1">
-            <h1>Пример отладки экземпляра Deployment в Kubernetes</h1>
+        <header>
+    <div class="container">
+        <div class="logo">
+            <a href="/ru" class="logo">
+                
+                    <img src="https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=mm&size=200" alt="">
+                
+
+                <span class="overlay"><i class="fa fa-home"></i></span>
+            </a>
         </div>
-    </section>
-
-    
-    
-
-    
-    <section class="row">
-        <div class="col s12 m8 offset-m2 l2 offset-l1">
+        <div class="titles">
+            <h3 class="title"><a href="/ru">Дмитрий Рожков</a></h3>
             
-
-<p class="article-meta">
-    <div class="article-meta-container">
-        <div class="article-meta-author-name"></div>
-        <div class="article-meta-description"></div>
-    </div>
-    <span class="article-meta-published-at grey-text text-darken-1">Sep 9, 2018</span>
-</p>
         </div>
-        <div class="col s12 m8 offset-m2 l6">
-            <p>Не так давно я просматривал список багрепортов в репозитории
+
+    <div class="languages">
+                
+                    
+                        <a href="/en">en</a>
+                    
+                
+                    
+                        <a href="/ru" class="active">ru</a>
+                    
+                
+            </div>
+        
+
+        
+        <div class="toggler">
+        
+            <i class="fa fa-bars" aria-hidden="true"></i>
+        </div>
+    </div>
+</header>
+
+
+        <div class="main container">
+            
+     
+    <div class="article-wrapper u-cf single">
+        
+            <a class="bubble" href="https://rojkov.github.io/ru/posts/debugging-kubernetes-deployment/">
+    <i class="fa fa-fw fa-pencil"></i>
+</a>
+
+<article class="default article">
+    
+
+    <div class="content">
+    <h3><a href="https://rojkov.github.io/ru/posts/debugging-kubernetes-deployment/">Пример отладки экземпляра Deployment в Kubernetes</a></h3>
+    <div class="meta">
+        
+            
+                <span class="date moment">2018-09-09</span>
+            
+        
+
+        
+
+        
+
+        
+    </div>
+
+    
+        <p>Не так давно я просматривал список багрепортов в репозитории
 Kubernetes. Искал что бы такое починить в целях повышения собственной
 заметности в сообществе. И наткнулся
 <a href="https://github.com/kubernetes/kubernetes/issues/67515">на отчёт</a>,
@@ -273,64 +236,143 @@ Kubernetes API эволюционировал слишком сильно со �
 пересоздать <code>ReplicaSet</code>. Управляемый новым объектом <code>ReplicaSet</code> под
 не имеет установленных &ldquo;tolerations&rdquo;, а потому не может стартовать
 на узле, помеченном как мастер-узел.</p>
+    
+</div>
+
+    
+<div class="footer no-tags">
+
+
+    
+
+    
+    <div class="languages">
+        <i class="fa fa-language"></i>
+        <div class="links">
+            
+                <a href="https://rojkov.github.io/posts/debugging-kubernetes-deployment/">en</a>
+            
         </div>
-    </section>
+    </div>
+    
+</div>
+
 </article>
 
-
-
-    
-      <footer class="page-footer grey lighten-5">
-    <div class="row max-width">
-        <div class="col s12 l10 offset-l1 clear-padding">
-            <div class="row">
-    
-        
-    
-
-    
-    
-    <div class="col s12 l12">
         
     </div>
 
     
-</div>
+        
+    
 
+     
 
         </div>
-    </div>
-    <div class="footer-copyright">
-        <div class="row max-width" style="width: 100%;">
-            <div class="col s12 l10 offset-l1">
-                <span class="grey-text text-darken-4">© 2018 Дмитрий Рожков</span>
-<div class="right">
-    
-<ul id="dropdown-languages" class="dropdown-content">
-    
-    <li>
-        <a class="dropdown-item black-text" href="https://rojkov.github.io/">English</a>
-    </li>
-    
-    <li>
-        <a class="dropdown-item black-text" href="https://rojkov.github.io/ru/">Русский</a>
-    </li>
-    
-</ul>
-<a class="dropdown-trigger black-text" href="#!" data-target="dropdown-languages">Русский
-    <i class="material-icons right">arrow_drop_down</i>
-</a>
 
-</div>
+        
+<footer>
+    <div class="container">
+
+        
+        <div class="recent-posts">
+            <strong>Последние записи</strong>
+                <ul>
+                
+                    <li>
+                        <a href="https://rojkov.github.io/ru/posts/debugging-kubernetes-deployment/">Пример отладки экземпляра Deployment в Kubernetes</a>
+                    </li>
+                
+                </ul>
+        </div>
+        
+
+        
+
+        <div class="right">
+            
+            <div class="external-profiles">
+                <strong>Социальные медиа</strong>
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
             </div>
+            
+
+            <div class="languages">
+                    <strong>Другие языки</strong>
+                    
+                        
+                            <a href="/en">en</a>
+                        
+                    
+                        
+                            <a href="/ru" class="active">ru</a>
+                        
+                    
+                </div>
+            
         </div>
     </div>
 </footer>
-    
 
-    
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="https://rojkov.github.io/js/script.js"></script>
-  </body>
+
+<div class="credits">
+    <div class="container">
+        <div class="copyright">
+            <a href="https://github.com/Lednerb" target="_blank">
+                &copy;
+                
+                    2018
+                
+                by Lednerb
+            </a>
+	    
+        </div>
+        <div class="author">
+            <a href="https://github.com/Lednerb/bilberry-hugo-theme" target="_blank">Bilberry Hugo Theme</a>
+        </div>
+    </div>
+</div>
+
+
+        
+
+        
+
+        
+        
+        <script type="text/javascript" src="/js/externalDependencies.39c47e10e241eae2947b3fe21809c572.js" integrity="md5-OcR&#43;EOJB6uKUez/iGAnFcg=="></script>
+
+        
+        
+        <script type="text/javascript" src="/js/theme.ff50ae6dc1bfc220b23bf69dbb41b54e.js" integrity="md5-/1CubcG/wiCyO/adu0G1Tg=="></script>
+
+        <script>
+            $(".moment").each(function() {
+                $(this).text(
+                    moment( $(this).text() )
+                        .locale( "ru" )
+                        .format('LL')
+                );
+            });
+
+            $(".footnote-return sup").html("");
+        </script>
+
+        
+
+        
+
+
+    </body>
 </html>
