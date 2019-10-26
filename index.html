@@ -137,9 +137,80 @@ project at Nokia. In this post I&rsquo;d like to write down what I still remembe
 about the ways the products like <a href="https://en.wikipedia.org/wiki/Nokia_N9">Nokia N9</a>
 were developed.</p>
 
-        
-            <a href="https://rojkov.github.io/posts/how-maemo-products-were-developed/" class="more">Continue reading</a>
-        
+<p>Usually people&rsquo;s relations are structured with agreed policies.
+The policies are enforced either through organizational hierarchies or
+special tools. The more policy enforcement relies on tools the less
+is the need for managers managing the hierarchies.</p>
+
+<p>At Nokia the hierarchical structure was huge and had more than one
+dimension.</p>
+
+<p>Perhaps it makes sense to begin with <em>platforms</em>. It is a very loaded
+term, but at Nokia &ldquo;platform&rdquo; was used mostly to denote a base operating
+system on which products were built. There were <a href="https://en.wikipedia.org/wiki/Series_40">S40</a>,
+<a href="https://en.wikipedia.org/wiki/Series_60">S60</a>, WindowsPhone and
+Maemo platforms. So strictly speaking Maemo was not a project,
+but platform. Every platform had its own big boss.</p>
+
+<p>Then we had <em>programs</em> for the platforms. A program was led by a
+program manager. Programs were defined by base hardware configurations.</p>
+
+<p>And in the scope of a program (meaning on top of a base hardware configuration)
+<em>products</em> where developed, that is devices of slightly different hardware
+versions and flashable images for them. A product also included &ldquo;maintenance&rdquo;
+that is software updates for the released device. Obviously every product
+had its own product manager reporting to the program manager and responsible
+for her product&rsquo;s timely releases with certain functionality.</p>
+
+<p>In addition to that there were configuration managers responsible for
+product configurations targeting different markets. For example the Maps
+application for Nokia N9 selling in China users saw Taiwan as PRC&rsquo;s
+territory and so on. In some funny
+markets the Camera app must produce &ldquo;shutter&rdquo; sound when taking a
+picture, so the setting for disabling the sound must be excluded.</p>
+
+<p>Non-managers (also known as developers) were organized in <em>teams</em>.
+Every team was responsible for development of one subsystem of
+the platform. Examples are the Real-time Communication team, the Applications
+team (Calculator, Gallery and others), the Application Framework team
+(UI and non-UI libraries), the Imaging team (Camera), the Browser team,
+the Multimedia team (sound processing and playback), the System Software
+team (Kernel and hardware adaptation) and others. Besides that there were
+auxiliary teams that didn&rsquo;t deliver any functionality to products, but
+supported the main teams. Without them products would be never released:</p>
+
+<ul>
+<li>the SDK team (toolchains, cross-compilers);</li>
+<li>the Performance team (optimizations and fixing performance issues);</li>
+<li>the Release &amp; Integration team. Probably this was the most important
+team which developed the policy enforcement tools mentioned in
+the beginning of the post, maintained Maemo&rsquo;s CI system when Martin
+Fowler had not yet coined the term and started to practice GitOps
+long before WeaveWorks. All this made it possible to integrate the
+deliverables of all other teams automatically (to some extent)
+into an end product. Later the team members formed the core of Jolla.</li>
+</ul>
+
+<p>Naturally every team was led by a line manager who did budgeting, facilitating
+and performance assessments.</p>
+
+<p>Inside the teams there were project managers who served as an interface
+between team members and product managers (teams delivered features to
+multiple products at the same time) and communicated with other teams
+because e.g. Applications depend on Application Framework, Phone depends
+on Multimedia and Camera (for video calls), almost everything depends
+Hardware Adaptation and everybody needs SDK.</p>
+
+<p>Also I&rsquo;d like to mention product QA, UX designers, industrial designers,
+sourcing, sales, marketing.</p>
+
+<p>In other words in 2000s it could cost a fortune to develop new
+mobile phones. But the good news is that a substantial part of the
+developed code was made open. Combined with the experience
+accumulated by the people it enabled Jolla to develop its own
+mobile platform way cheaper. Needless to say Jolla&rsquo;s organizational
+structure was almost flat, it relied heavily on its automated
+release process.</p>
     
 </div>
 
@@ -149,6 +220,15 @@ were developed.</p>
 
     
 
+    
+    <div class="languages">
+        <i class="fa fa-language"></i>
+        <div class="links">
+            
+                <a href="https://rojkov.github.io/ru/posts/how-maemo-products-were-developed/">ru</a>
+            
+        </div>
+    </div>
     
 </div>
 
@@ -203,9 +283,76 @@ of any. <a href="https://github.com/kubernetes/kubernetes/issues/67515#issuecomm
 is asking such questions it seems. So, I decided to copy my comment
 from the issue discussion to this blog.</p>
 
-        
-            <a href="https://rojkov.github.io/posts/debugging-kubernetes-deployment/" class="more">Continue reading</a>
-        
+<p>My style of debugging is trial and error led by my intuition. But here
+is the scheme I usually use:</p>
+
+<ol>
+<li><p>Reproduce the issue locally. Usually this is the most time consuming
+step.</p></li>
+
+<li><p>Look into all available logs for anything weird or strange (nothing
+interesting here this time).</p></li>
+
+<li><p>Try to build an older version of Kubernetes, as old as possible. And see
+if the issue is reproducible. Then in case it&rsquo;s not use <code>git bisect</code> to
+find the offending commit. Unfortunately the issue is reproducible even
+with K8s 1.8.0.</p></li>
+
+<li><p>Examine the content of the objects in question (<code>ReplicaSet</code>s) using
+<code>kubectl describe ...</code>. How objects of the same type differ from each
+other. If some objects are mutable try to find out how their content
+gets updated (<code>Deployment</code>). Here I found out that the new replica set lacks
+tolerations and the deployment is not immutable.</p></li>
+
+<li><p>Find the code which runs upon deployment updates and increase its log
+verbosity. It turned out the relevant code is the deployment controller
+of <code>kube-contoller-manager</code>. This environment variable increases log
+verbosity for the code <code>LOG_SPEC=deployment_controller*=5,replica_set*=5,sync*=5,recreate*=5</code>.
+The only outcome on this step was the confirmation that the deployment
+gets updated.</p></li>
+
+<li><p>Modify the sync handler for <code>Deployment</code> objects to log what exactly has
+changed (this lib can be used to do the diff <a href="https://github.com/d4l3k/messagediff">https://github.com/d4l3k/messagediff</a>).
+Here we see that the only change was the removal of the tolerations.</p></li>
+
+<li><p>Look for code which actually does update <code>Deployment</code> through the API server
+with this command</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ git grep Deployments | grep <span style="color:#d14">&#34;Update(&#34;</span></code></pre></div>
+<p>There are only few places in Kubernetes where <code>Deployment</code>s get updated,
+but none looks relevant. This leads to the hypothesis that the source of
+the update is somewhere outside of Kubernetes.</p></li>
+
+<li><p>Take a closer look at the YAML files. They seem to be quite complex.</p></li>
+
+<li><p>Try to make the setup as simple as possible where the issue is still
+reproducible. Here I found that small one line changes in different YAML
+files lead to the issue being not reproducible - the setup is too fragile.</p></li>
+
+<li><p>Then look through the YAMLs line by line in the hope to find something
+interesting. The interesting bit here is that the deployment operates
+on behalf of the <code>kube-state-metrics</code> service account which requests
+permission to do <code>update</code> on <code>Deployment</code>s.</p></li>
+
+<li><p>Drop this permission. This confirms that the Deployment doesn&rsquo;t
+change any more.</p></li>
+
+<li><p>Look into the logs of the running pod. Bingo! In <code>addon-resizer</code>&rsquo;s logs
+there is an error about inability to update the <code>Deployment</code>.</p></li>
+
+<li><p>Try to find the sources of <code>addon-resizer:1.0</code>. This turned out to be
+not easy task, because the version 1.0 is <strong>very</strong> old. Apparently the
+culprit is K8s API has evolved too much since v1.0. Looking at <code>PodSpec</code>
+used in <code>addon-resizer:1.0</code> confirms it.</p></li>
+</ol>
+
+<p>So, it turned out the problem is in the outdated container image
+<code>quay.io/coreos/addon-resizer:1.0</code> of the deployment.</p>
+
+<p>It runs a client which updates the <code>kube-state-metrics</code> deployment. But the
+client uses outdated API which lacks <code>Tolerations</code> in <code>PodSpec</code>. As result
+the updated deployment looses tolerations in its pod template. The deployment
+controller recreates <code>ReplicaSet</code>. The pods controlled by the new <code>ReplicaSet</code>
+lack tolerations as well and fail to run on the tainted node.</p>
     
 </div>
 

@@ -4,7 +4,7 @@
   
   <url>
     <loc>https://rojkov.github.io/ru/posts/</loc>
-    <lastmod>2018-09-09T16:23:22+03:00</lastmod>
+    <lastmod>2019-10-21T20:29:00+03:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -19,7 +19,7 @@
   
   <url>
     <loc>https://rojkov.github.io/ru/</loc>
-    <lastmod>2018-09-09T16:23:22+03:00</lastmod>
+    <lastmod>2019-10-21T20:29:00+03:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -29,6 +29,21 @@
                 rel="alternate"
                 hreflang="ru"
                 href="https://rojkov.github.io/ru/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://rojkov.github.io/ru/posts/how-maemo-products-were-developed/</loc>
+    <lastmod>2019-10-21T20:29:00+03:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://rojkov.github.io/posts/how-maemo-products-were-developed/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://rojkov.github.io/ru/posts/how-maemo-products-were-developed/"
                 />
   </url>
   

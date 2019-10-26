@@ -7,10 +7,27 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© 2019 Дмитрий Рожков</copyright>
-    <lastBuildDate>Sun, 09 Sep 2018 16:23:22 +0300</lastBuildDate>
+    <lastBuildDate>Mon, 21 Oct 2019 20:29:00 +0300</lastBuildDate>
     
 	<atom:link href="https://rojkov.github.io/ru/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Как делались продукты в Maemo</title>
+      <link>https://rojkov.github.io/ru/posts/how-maemo-products-were-developed/</link>
+      <pubDate>Mon, 21 Oct 2019 20:29:00 +0300</pubDate>
+      
+      <guid>https://rojkov.github.io/ru/posts/how-maemo-products-were-developed/</guid>
+      <description>&lt;p&gt;Любой проект, который выходит за рамки персонального хобби, является в первую
+очередь предприятием с общественным характером производства. То есть основа
+всего - люди. Сами по себе средства производства бесполезны без людей. Но
+чтобы получить хоть какой-то значимый результат от людской деятельности, эта
+деятельность должна быть организована, отношения людей - структурированы.&lt;/p&gt;
+
+&lt;p&gt;Когда-то давно я работал в Нокии в проекте &lt;a href=&#34;https://en.wikipedia.org/wiki/Maemo&#34;&gt;Maemo&lt;/a&gt;.
+В этой статье я просто выпишу то, что ещё помню о том, каким способом
+была организована разработка таких продуктов как &lt;a href=&#34;https://en.wikipedia.org/wiki/Nokia_N9&#34;&gt;Nokia N9&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Пример отладки экземпляра Deployment в Kubernetes</title>
