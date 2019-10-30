@@ -7,21 +7,22 @@
         <meta name="description" content="">
         <meta name="keywords" content="">
         <meta name="generator" content="Hugo 0.59.0" />
-        <title>  | Dmitry Rozhkov</title>
-        <meta name="description" content="">
-        <meta itemprop="name" content="">
-        <meta itemprop="description" content="">
-        <meta property="og:title" content="">
-        <meta property="og:description" content="">
+        <title> Continuous Integration in Maemo | Dmitry Rozhkov</title>
+        <meta name="description" content="Continuous Integration in Maemo - %!s(&lt;nil&gt;)">
+        <meta itemprop="name" content="Continuous Integration in Maemo">
+        <meta itemprop="description" content="Continuous Integration in Maemo - %!s(&lt;nil&gt;)">
+        <meta property="og:title" content="Continuous Integration in Maemo">
+        <meta property="og:description" content="Continuous Integration in Maemo - %!s(&lt;nil&gt;)">
         <meta property="og:image" content="https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?size=200">
-        <meta property="og:url" content="https://rojkov.github.io/">
-        <meta property="og:site_name" content="Dmitry Rozhkov"><meta property="og:type" content="website">
+        <meta property="og:url" content="https://rojkov.github.io/posts/continuous-integration-in-maemo/">
+        <meta property="og:site_name" content="Dmitry Rozhkov">
+        <meta property="og:type" content="article">
         <link rel="icon" type="image/png" href="https://rojkov.github.io/favicon-32x32.png" sizes="32x32">
         <link rel="icon" type="image/png" href="https://rojkov.github.io/favicon-16x16.png" sizes="16x16">
 
 	
-	  <link href="/" rel="alternate" type="application/rss+xml" title="Dmitry Rozhkov" />
-	  <link href="/" rel="feed" type="application/rss+xml" title="Dmitry Rozhkov" />
+	  <link href="/posts/continuous-integration-in-maemo/" rel="alternate" type="application/rss+xml" title="Dmitry Rozhkov" />
+	  <link href="/posts/continuous-integration-in-maemo/" rel="feed" type="application/rss+xml" title="Dmitry Rozhkov" />
 	
 
         
@@ -92,14 +93,8 @@
 
         <div class="main container">
             
-
-
-
-    
-
-    
-        
-    <div class="article-wrapper u-cf">
+     
+    <div class="article-wrapper u-cf single">
         
             <a class="bubble" href="https://rojkov.github.io/posts/continuous-integration-in-maemo/">
     <i class="fa fa-fw fa-pencil"></i>
@@ -308,319 +303,9 @@ overridden by a new build.</p>
 
     
         
-    <div class="article-wrapper u-cf">
-        
-            <a class="bubble" href="https://rojkov.github.io/posts/how-maemo-products-were-developed/">
-    <i class="fa fa-fw fa-pencil"></i>
-</a>
-
-<article class="default article">
     
 
-    <div class="content">
-    <h3><a href="https://rojkov.github.io/posts/how-maemo-products-were-developed/">How Maemo Products Were Developed</a></h3>
-    <div class="meta">
-        
-            
-                <span class="date moment">2019-10-21</span>
-            
-        
-
-        
-
-        
-
-        
-    </div>
-
-    
-        <p>Any project that goes beyond being a mere personal hobby is always a
-collective effort where people work in concert. And these people
-working in concert is the foundation on which any product is built.
-Means of production are useless without people, but people need to
-be organized, their relations have to be structured to transform
-the collective effort into a meaningful outcome.</p>
-
-<p>I used to be a part of the <a href="https://en.wikipedia.org/wiki/Maemo">Maemo</a>
-project at Nokia. In this post I&rsquo;d like to write down what I still remember
-about the ways the products like <a href="https://en.wikipedia.org/wiki/Nokia_N9">Nokia N9</a>
-were developed.</p>
-
-        
-            <a href="https://rojkov.github.io/posts/how-maemo-products-were-developed/" class="more">Continue reading</a>
-        
-    
-</div>
-
-    
-<div class="footer no-tags">
-
-
-    
-
-    
-    <div class="languages">
-        <i class="fa fa-language"></i>
-        <div class="links">
-            
-                <a href="https://rojkov.github.io/ru/posts/how-maemo-products-were-developed/">ru</a>
-            
-        </div>
-    </div>
-    
-</div>
-
-</article>
-
-        
-    </div>
-
-    
-        
-    <div class="article-wrapper u-cf">
-        
-            <a class="bubble" href="https://rojkov.github.io/posts/debugging-kubernetes-deployment/">
-    <i class="fa fa-fw fa-pencil"></i>
-</a>
-
-<article class="default article">
-    
-
-    <div class="content">
-    <h3><a href="https://rojkov.github.io/posts/debugging-kubernetes-deployment/">Debugging a Kubernetes Deployment</a></h3>
-    <div class="meta">
-        
-            
-                <span class="date moment">2018-09-09</span>
-            
-        
-
-        
-
-        
-
-        
-    </div>
-
-    
-        <p>When looking for a Kubernetes issue I could investigate I stumbled upon
-this <a href="https://github.com/kubernetes/kubernetes/issues/67515">problem</a>.
-The title should have been worded as something like &laquo;A new mysterious
-<code>ReplicaSet</code> replaces the original one soon after its <code>Deployment</code> has
-been created&raquo;. What&rsquo;s important is that this new <code>ReplicaSet</code> fails
-to start.</p>
-
-<p>In hindsight the case seems rather trivial, but at the time I saw the
-issue it didn&rsquo;t feel like that. The first suspect was the code of
-Kubernetes mistakenly firing up an unneeded <code>ReplicaSet</code>, thus I needed
-a way to hunt down the culprit in the code.</p>
-
-<p>How do people debug such issues? Isn&rsquo;t there a proven methodology, a more
-or less systematic approach to solving similar puzzles. I&rsquo;m not aware
-of any. <a href="https://github.com/kubernetes/kubernetes/issues/67515#issuecomment-415481314">Not only me</a>
-is asking such questions it seems. So, I decided to copy my comment
-from the issue discussion to this blog.</p>
-
-        
-            <a href="https://rojkov.github.io/posts/debugging-kubernetes-deployment/" class="more">Continue reading</a>
-        
-    
-</div>
-
-    
-<div class="footer no-tags">
-
-
-    
-
-    
-    <div class="languages">
-        <i class="fa fa-language"></i>
-        <div class="links">
-            
-                <a href="https://rojkov.github.io/ru/posts/debugging-kubernetes-deployment/">ru</a>
-            
-        </div>
-    </div>
-    
-</div>
-
-</article>
-
-        
-    </div>
-
-    
-        
-    <div class="article-wrapper u-cf">
-        
-            <a class="bubble" href="https://rojkov.github.io/posts/how-to-configure-devel-environment-to-work-on-gecko-for-sailfishos/">
-    <i class="fa fa-fw fa-pencil"></i>
-</a>
-
-<article class="default article">
-    
-
-    <div class="content">
-    <h3><a href="https://rojkov.github.io/posts/how-to-configure-devel-environment-to-work-on-gecko-for-sailfishos/">How to Configure Devel Environment to Work on Gecko for Sailfishos</a></h3>
-    <div class="meta">
-        
-            
-                <span class="date moment">2014-03-20</span>
-            
-        
-
-        
-
-        
-
-        
-    </div>
-
-    
-        <p>It turned out that newcomers have difficulties with setting up their development
-environment to work on Gecko integration with Nemo, SailfishOS or any other
-Mer-based Linux. Hence this post.</p>
-
-        
-            <a href="https://rojkov.github.io/posts/how-to-configure-devel-environment-to-work-on-gecko-for-sailfishos/" class="more">Continue reading</a>
-        
-    
-</div>
-
-    
-<div class="footer no-tags">
-
-
-    
-
-    
-</div>
-
-</article>
-
-        
-    </div>
-
-    
-        
-    <div class="article-wrapper u-cf">
-        
-            <a class="bubble" href="https://rojkov.github.io/posts/embedlite-initialization/">
-    <i class="fa fa-fw fa-pencil"></i>
-</a>
-
-<article class="default article">
-    
-
-    <div class="content">
-    <h3><a href="https://rojkov.github.io/posts/embedlite-initialization/">EmbedLite Initialization</a></h3>
-    <div class="meta">
-        
-            
-                <span class="date moment">2014-03-02</span>
-            
-        
-
-        
-
-        
-
-        
-    </div>
-
-    
-        <p>I guess some people may find useful the couple of words below on how
-EmbedLite embedding is initialized. I&rsquo;ve written them mostly because I&rsquo;m trying
-to wrap my head around the topic myself. So please let me know if you see non-sense.</p>
-
-        
-            <a href="https://rojkov.github.io/posts/embedlite-initialization/" class="more">Continue reading</a>
-        
-    
-</div>
-
-    
-<div class="footer no-tags">
-
-
-    
-
-    
-</div>
-
-</article>
-
-        
-    </div>
-
-    
-        
-    <div class="article-wrapper u-cf">
-        
-            <a class="bubble" href="https://rojkov.github.io/posts/whats-behind-sailfish-browser/">
-    <i class="fa fa-fw fa-pencil"></i>
-</a>
-
-<article class="default article">
-    
-
-    <div class="content">
-    <h3><a href="https://rojkov.github.io/posts/whats-behind-sailfish-browser/">What&#39;s Behind Sailfish Browser</a></h3>
-    <div class="meta">
-        
-            
-                <span class="date moment">2014-02-09</span>
-            
-        
-
-        
-
-        
-
-        
-    </div>
-
-    
-        <p>In this post I&rsquo;d like to shade some light on what technology is used in
-the browser application for Sailfish OS.</p>
-
-<p>By now it&rsquo;s a widely known fact that the browser is based on the Gecko engine
-which is developed by Mozilla corp. and is used in their Firefox browser and
-Firefox OS. For some reason it&rsquo;s not that known that the Sailfish browser is
-built upon the <a href="https://github.com/tmeshkova/gecko-dev/tree/embedlite/embedding/embedlite">EmbedLite</a>
-embedding API (also known as IPCLiteAPI) for Gecko.</p>
-
-        
-            <a href="https://rojkov.github.io/posts/whats-behind-sailfish-browser/" class="more">Continue reading</a>
-        
-    
-</div>
-
-    
-<div class="footer no-tags">
-
-
-    
-
-    
-</div>
-
-</article>
-
-        
-    </div>
-
-    
-
-    
-    <div class="paginator">
-        
-
-        
-    </div>
-
-
+     
 
         </div>
 
@@ -710,8 +395,7 @@ embedding API (also known as IPCLiteAPI) for Gecko.</p>
                 
                 by Lednerb
             </a>
-	    -
-		<a href="https://rojkov.github.io/index.xml">RSS</a>
+	    
         </div>
         <div class="author">
             <a href="https://github.com/Lednerb/bilberry-hugo-theme" target="_blank">Bilberry Hugo Theme</a>

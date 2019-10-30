@@ -185,7 +185,7 @@ Kubernetes. Искал что бы такое починить в целях п�
 
 <li><p>Поискать код, который непосредственно меняет объекты <code>Deployment</code>
 через <code>apiserver</code> при помощи вот такой команды.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ git grep Deployments | grep <span style="color:#d14">&#34;Update(&#34;</span></code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ git grep Deployments | grep <span style="color:#f1fa8c">&#34;Update(&#34;</span></code></pre></div>
 <p>В коде Кубернетиса есть всего несколько мест, где <code>Deployment</code>
 обновляются, но ни одно из них не выглядит подозрительным.
 Это, наконец-то, приводит нас к давно напрашивающемуся выводу о том,

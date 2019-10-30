@@ -172,7 +172,7 @@ Here we see that the only change was the removal of the tolerations.</p></li>
 
 <li><p>Look for code which actually does update <code>Deployment</code> through the API server
 with this command</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ git grep Deployments | grep <span style="color:#d14">&#34;Update(&#34;</span></code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ git grep Deployments | grep <span style="color:#f1fa8c">&#34;Update(&#34;</span></code></pre></div>
 <p>There are only few places in Kubernetes where <code>Deployment</code>s get updated,
 but none looks relevant. This leads to the hypothesis that the source of
 the update is somewhere outside of Kubernetes.</p></li>
@@ -250,6 +250,10 @@ lack tolerations as well and fail to run on the tainted node.</p>
         <div class="recent-posts">
             <strong>Latest posts</strong>
                 <ul>
+                
+                    <li>
+                        <a href="https://rojkov.github.io/posts/continuous-integration-in-maemo/">Continuous Integration in Maemo</a>
+                    </li>
                 
                     <li>
                         <a href="https://rojkov.github.io/posts/how-maemo-products-were-developed/">How Maemo Products Were Developed</a>

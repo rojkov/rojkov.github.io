@@ -239,9 +239,9 @@ is forwarded to and/or data received from elsewhere.&raquo;</p>
 </blockquote>
 
 <p>Then we initialize the base window with the widget:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">rv <span style="color:#000;font-weight:bold">=</span> baseWindow<span style="color:#000;font-weight:bold">-&gt;</span>InitWindow(<span style="color:#099">0</span>, mWidget, <span style="color:#099">0</span>, <span style="color:#099">0</span>, mViewSize.width, mViewSize.height);
-<span style="color:#000;font-weight:bold">if</span> (NS_FAILED(rv)) {
-    <span style="color:#000;font-weight:bold">return</span>;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">rv <span style="color:#ff79c6">=</span> baseWindow<span style="color:#ff79c6">-&gt;</span>InitWindow(<span style="color:#bd93f9">0</span>, mWidget, <span style="color:#bd93f9">0</span>, <span style="color:#bd93f9">0</span>, mViewSize.width, mViewSize.height);
+<span style="color:#ff79c6">if</span> (NS_FAILED(rv)) {
+    <span style="color:#ff79c6">return</span>;
 }
 </code></pre></div>
 <p>The important part is that we initialize the window which hasn&rsquo;t been created
@@ -365,6 +365,10 @@ separate processes.</p>
         <div class="recent-posts">
             <strong>Latest posts</strong>
                 <ul>
+                
+                    <li>
+                        <a href="https://rojkov.github.io/posts/continuous-integration-in-maemo/">Continuous Integration in Maemo</a>
+                    </li>
                 
                     <li>
                         <a href="https://rojkov.github.io/posts/how-maemo-products-were-developed/">How Maemo Products Were Developed</a>
