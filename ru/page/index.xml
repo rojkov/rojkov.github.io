@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© 2019 Дмитрий Рожков</copyright>
-    <lastBuildDate>Thu, 05 Sep 2013 20:20:10 +0300</lastBuildDate>
-    
-	<atom:link href="https://rojkov.github.io/ru/page/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 05 Sep 2013 20:20:10 +0300</lastBuildDate><atom:link href="https://rojkov.github.io/ru/page/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Контакты</title>
       <link>https://rojkov.github.io/ru/page/about/</link>

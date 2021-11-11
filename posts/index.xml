@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© 2019 Dmitry Rozhkov</copyright>
-    <lastBuildDate>Mon, 28 Oct 2019 21:00:45 +0200</lastBuildDate>
-    
-	<atom:link href="https://rojkov.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 28 Oct 2019 21:00:45 +0200</lastBuildDate><atom:link href="https://rojkov.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Continuous Integration in Maemo</title>
       <link>https://rojkov.github.io/posts/continuous-integration-in-maemo/</link>
@@ -35,7 +31,6 @@ working in concert is the foundation on which any product is built.
 Means of production are useless without people, but people need to
 be organized, their relations have to be structured to transform
 the collective effort into a meaningful outcome.&lt;/p&gt;
-
 &lt;p&gt;I used to be a part of the &lt;a href=&#34;https://en.wikipedia.org/wiki/Maemo&#34;&gt;Maemo&lt;/a&gt;
 project at Nokia. In this post I&amp;rsquo;d like to write down what I still remember
 about the ways the products like &lt;a href=&#34;https://en.wikipedia.org/wiki/Nokia_N9&#34;&gt;Nokia N9&lt;/a&gt;
@@ -50,16 +45,14 @@ were developed.&lt;/p&gt;</description>
       <guid>https://rojkov.github.io/posts/debugging-kubernetes-deployment/</guid>
       <description>&lt;p&gt;When looking for a Kubernetes issue I could investigate I stumbled upon
 this &lt;a href=&#34;https://github.com/kubernetes/kubernetes/issues/67515&#34;&gt;problem&lt;/a&gt;.
-The title should have been worded as something like &amp;laquo;A new mysterious
+The title should have been worded as something like «A new mysterious
 &lt;code&gt;ReplicaSet&lt;/code&gt; replaces the original one soon after its &lt;code&gt;Deployment&lt;/code&gt; has
-been created&amp;raquo;. What&amp;rsquo;s important is that this new &lt;code&gt;ReplicaSet&lt;/code&gt; fails
+been created». What&amp;rsquo;s important is that this new &lt;code&gt;ReplicaSet&lt;/code&gt; fails
 to start.&lt;/p&gt;
-
 &lt;p&gt;In hindsight the case seems rather trivial, but at the time I saw the
 issue it didn&amp;rsquo;t feel like that. The first suspect was the code of
 Kubernetes mistakenly firing up an unneeded &lt;code&gt;ReplicaSet&lt;/code&gt;, thus I needed
 a way to hunt down the culprit in the code.&lt;/p&gt;
-
 &lt;p&gt;How do people debug such issues? Isn&amp;rsquo;t there a proven methodology, a more
 or less systematic approach to solving similar puzzles. I&amp;rsquo;m not aware
 of any. &lt;a href=&#34;https://github.com/kubernetes/kubernetes/issues/67515#issuecomment-415481314&#34;&gt;Not only me&lt;/a&gt;
@@ -97,7 +90,6 @@ to wrap my head around the topic myself. So please let me know if you see non-se
       <guid>https://rojkov.github.io/posts/whats-behind-sailfish-browser/</guid>
       <description>&lt;p&gt;In this post I&amp;rsquo;d like to shade some light on what technology is used in
 the browser application for Sailfish OS.&lt;/p&gt;
-
 &lt;p&gt;By now it&amp;rsquo;s a widely known fact that the browser is based on the Gecko engine
 which is developed by Mozilla corp. and is used in their Firefox browser and
 Firefox OS. For some reason it&amp;rsquo;s not that known that the Sailfish browser is

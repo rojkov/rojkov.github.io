@@ -6,7 +6,7 @@
         <meta name="author" content="">
         <meta name="description" content="">
         <meta name="keywords" content="">
-        <meta name="generator" content="Hugo 0.59.0" />
+        <meta name="generator" content="Hugo 0.79.0" />
         <title> Continuous Integration in Maemo | Dmitry Rozhkov</title>
         <meta name="description" content="Continuous Integration in Maemo - %!s(&lt;nil&gt;)">
         <meta itemprop="name" content="Continuous Integration in Maemo">
@@ -29,7 +29,7 @@
         
         
         
-        <link rel="stylesheet" href="/sass/combined.min.2072f0ef1b87081e9ca5011a6a085bb666600ca54c1aa4d1e43a7c03b09b3cf7.css">
+        <link rel="stylesheet" href="/sass/combined.min.47f9728fd974d375c7aef6b35f8ce489792802f8b4aede42526d18279fd04100.css">
 
         
 
@@ -123,9 +123,7 @@
         <p>In the previous post about Maemo I made a quick review of its
 human organization. Now I&rsquo;d like to add a couple of words about
 its release process.</p>
-
 <h3 id="bifh">BIFH</h3>
-
 <p>Nowadays embedded development mostly associates with Yocto and usually
 release processes are defined by the peculiarities of Yocto. In Maemo
 it was all different, because e.g. the metadata of source packages was kept
@@ -136,51 +134,40 @@ BIFH is a proprietary system that has never been opened by Nokia, though
 there was such <a href="http://bifh.org/wiki/">intent</a>. It resembles
 Suse&rsquo;s <a href="https://openbuildservice.org/">Open Build Service</a> a bit,
 but OBS knows nothing about integration requests.</p>
-
 <p>I&rsquo;d say that BIFH was a reflection of Maemo&rsquo;s organization and grew
 organically from it and was never finished. I&rsquo;ll try to present somewhat
 idealistic view on it, because some concepts have never been implemented
 in BIFH and were buried in backlog.</p>
-
 <p>First of all let&rsquo;s introduce BIFH&rsquo;s speak.</p>
-
 <h3 id="terminology">Terminology</h3>
-
 <p><strong>Software Platform</strong> is a set of software components belonging to various
 architectural layers used by product vendors (i.e. Nokia) to build their
 products upon.</p>
-
 <p><strong>Software Platform Taxonomy</strong> is a scheme of hierarchical classification of
 pieces of code. The scheme tends to evolve from platform to platform. It may
-be defined in the same way as an organization is structured: projects &rarr;
-component teams &rarr; source packages. Or it may reflect a software
+be defined in the same way as an organization is structured: projects →
+component teams → source packages. Or it may reflect a software
 architecture more or less. The common rule is that binary packages are leaves
 in the structure always. Then between a binary and the root there might be
 several levels of intermediate nodes of different types belonging to one or
 more hierarchies: i.e. architectural hierarchy, copyright hierarchy,
 deployment configuration hierarchy, certification hierarchy, hierarchy in
 terms of a bug tracking system.</p>
-
 <p>Different actors are interested in different aspects of the taxonomy. Legal
 managers may be interested to see source packages with no copyright owner
 set. Architects would want to overview platform’s architecture or to move
 a source package from one subsystem to another.</p>
-
 <p>Some actions on nodes may trigger a process of approval of the action according
 to a specified workflow.</p>
-
 <p>Also Access Control Lists can be applied to the taxonomy.</p>
-
 <p><strong>Deployment Units</strong> of various configurations are final results of a software
 vendor which are meant to be ready for production or sale or distribution.
 Examples: flashable images, distribution packages, ISO images, VM images.
 The possibility to change the configuration of deployment units easily
 (to add or to remove a certain feature, closed source code, packages with debug
 symbols or whatever else) is the cornerstone for easy productization.</p>
-
 <p><strong>Build variant</strong> is a combination of a toolchain and compiler settings
 (e.g. code instrumentalization on/off).</p>
-
 <p><strong>Package repository</strong> is a storage of source and binary packages used to
 produce a deployment unit or to bootstrap a build environment. A repository
 may contain packages built for different architectures and build variants.
@@ -191,51 +178,40 @@ external subcontractors signed NDA not covering all the source code, e.g.
 at that time it were sources of Macromedia Flash, Opera, Skype etc).
 I suspect Yocto and OBS lack this feature even now, but at Nokia
 ACLs were a must.</p>
-
 <p><strong>Package Repository Management System</strong> is a system responsible for creation,
 updating and querying package repositories (e.g. serving queries to produce
 changelog diffs between two arbitrary updates of a repository).
 As an open source analogue of such system <a href="https://www.aptly.info/">aptly</a>
 looks promising.</p>
-
 <p><strong>Baseline</strong> is a snapshot of a package repository.</p>
-
 <p><strong>Build Environment</strong> is a combination of a build variant and a baseline
 (optionally with some constraints applied, i.e. copyright constraints)
 used to transform sources into binaries.</p>
-
 <p><strong>Product Branch</strong> is a fork-able sequence of baselines. A product branch might
 be quantized at the scale of weekly releases or on per integration request
 basis.</p>
-
 <p><strong>Release</strong> is a baseline marked as a “release” and a set of deployment
 units built against the baseline.</p>
-
 <p><strong>VCS Runner</strong> is a daemon which monitors source code repositories associated
 with registered in a platform taxonomy source packages and emits events upon
 new commits or tags which may trigger build processes or even integration
 processes of new versions of the source code. BIFH used polling to
 detect new updates in version control systems, because it was running
 behind a corporate proxy.</p>
-
 <p><strong>Validation</strong> is a collection of various activities such as API checks,
 ABI compatibility checks, source code checks (static code analysis for example),
 build log checks, packaging checks, installation log checks, copyright checks,
 deployment unit checks including automated functional and unit testing,
 <strong>Seamless Software Updates</strong> and so on and so forth&hellip;</p>
-
-<h3 id="a-day-in-bifh-s-life">A day in BIFH&rsquo;s life</h3>
-
+<h3 id="a-day-in-bifhs-life">A day in BIFH&rsquo;s life</h3>
 <p>So, the platform taxonomy was served by a Django-based web application
 (a package registry).
 Any package that could become a part of an end product was
 registered in the app&rsquo;s database. The registered metadata included
 license, copyright owner, required certifications, VCS URL, ACLs etc.</p>
-
 <p>But product configurations were defined through dependencies of
 meta-packages and any change in a configuration had to follow the
 same workflow that was used for other packages.</p>
-
 <p>Let&rsquo;s imagine we want to include an ICQ-plugin to Maemo&rsquo;s
 communication framework Telepathy. Then we need to register the plugin&rsquo;s
 metadata in the package registry. As soon as we add a VCS URL(s) and mark
@@ -243,7 +219,6 @@ it enabled the VCS Runner starts to monitor the source repository
 for new tags or commits. Upon a new tag the VCS Runner generates a
 request (from a template also added to the package registry) to start an
 integration workflow for the new package release. The steps (all optional) are</p>
-
 <ol>
 <li>download sources;</li>
 <li>run a configurable set of source checks and validations;</li>
@@ -260,7 +235,6 @@ built binaries included;</li>
 <li>optionally indicate that the packages are ready for product integration
 tests.</li>
 </ol>
-
 <p>The format of integration requests evolved from a simple enumeration of
 package names to a rather complex DSL to satisfy all possible corner
 cases. Naturally requests could be submitted manually either
@@ -271,10 +245,8 @@ Git repositories when a new version of <code>A</code> depended on a new version 
 whereas the new version of <code>B</code> was incompatible with the current
 version of <code>A</code>. This way we can guaranty that the product repository
 are always in good state and not broken.</p>
-
 <p>Release candidates were built by sending manual requests too, but with
 steps for building and checking packages excluded.</p>
-
 <p>Also this approach helped a lot when testers reported bugs against
 a test build. Since every build (including builds for product release
 candidates) could be referenced by its request ID

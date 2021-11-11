@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© 2019 Дмитрий Рожков</copyright>
-    <lastBuildDate>Mon, 21 Oct 2019 20:29:00 +0300</lastBuildDate>
-    
-	<atom:link href="https://rojkov.github.io/ru/posts/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 21 Oct 2019 20:29:00 +0300</lastBuildDate><atom:link href="https://rojkov.github.io/ru/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Как делались продукты в Maemo</title>
       <link>https://rojkov.github.io/ru/posts/how-maemo-products-were-developed/</link>
@@ -23,7 +19,6 @@
 всего - люди. Сами по себе средства производства бесполезны без людей. Но
 чтобы получить хоть какой-то значимый результат от людской деятельности, эта
 деятельность должна быть организована, отношения людей - структурированы.&lt;/p&gt;
-
 &lt;p&gt;Когда-то давно я работал в Нокии в проекте &lt;a href=&#34;https://en.wikipedia.org/wiki/Maemo&#34;&gt;Maemo&lt;/a&gt;.
 В этой статье я просто выпишу то, что ещё помню о том, каким способом
 была организована разработка таких продуктов как &lt;a href=&#34;https://en.wikipedia.org/wiki/Nokia_N9&#34;&gt;Nokia N9&lt;/a&gt;.&lt;/p&gt;</description>
@@ -39,13 +34,11 @@
 Kubernetes. Искал что бы такое починить в целях повышения собственной
 заметности в сообществе. И наткнулся
 &lt;a href=&#34;https://github.com/kubernetes/kubernetes/issues/67515&#34;&gt;на отчёт&lt;/a&gt;,
-который следовало бы озаглавить как &amp;laquo;Таинственное обновление
-&lt;code&gt;ReplicaSet&lt;/code&gt; в &lt;code&gt;Deployment&lt;/code&gt;, которое его ломает&amp;raquo;.&lt;/p&gt;
-
+который следовало бы озаглавить как «Таинственное обновление
+&lt;code&gt;ReplicaSet&lt;/code&gt; в &lt;code&gt;Deployment&lt;/code&gt;, которое его ломает».&lt;/p&gt;
 &lt;p&gt;Сейчас причина сбоя видится тривиальной, если подумать, а не использовать
 накопившиеся условные рефлексы. Но в тот момент задача показалась
 не столь простой, а от того - интересной. И я решил ею заняться.&lt;/p&gt;
-
 &lt;p&gt;Раз отчёт об ошибке появился на багтрекере Кубернетиса, то и проблема
 скорее всего в самом Кубернетисе, наивно подумал я. Но как вообще
 люди решают подобные задачи? Нет ли уже готовой методологии для этого?

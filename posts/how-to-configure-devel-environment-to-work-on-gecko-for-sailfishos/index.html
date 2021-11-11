@@ -6,7 +6,7 @@
         <meta name="author" content="">
         <meta name="description" content="">
         <meta name="keywords" content="">
-        <meta name="generator" content="Hugo 0.59.0" />
+        <meta name="generator" content="Hugo 0.79.0" />
         <title> How to Configure Devel Environment to Work on Gecko for Sailfishos | Dmitry Rozhkov</title>
         <meta name="description" content="How to Configure Devel Environment to Work on Gecko for Sailfishos - %!s(&lt;nil&gt;)">
         <meta itemprop="name" content="How to Configure Devel Environment to Work on Gecko for Sailfishos">
@@ -29,7 +29,7 @@
         
         
         
-        <link rel="stylesheet" href="/sass/combined.min.2072f0ef1b87081e9ca5011a6a085bb666600ca54c1aa4d1e43a7c03b09b3cf7.css">
+        <link rel="stylesheet" href="/sass/combined.min.47f9728fd974d375c7aef6b35f8ce489792802f8b4aede42526d18279fd04100.css">
 
         
 
@@ -123,24 +123,20 @@
         <p>It turned out that newcomers have difficulties with setting up their development
 environment to work on Gecko integration with Nemo, SailfishOS or any other
 Mer-based Linux. Hence this post.</p>
-
 <h3 id="configure-development-environment">Configure development environment</h3>
-
 <p>Gecko engine development for embedded devices is quite resource consuming.
 If you want to try it you&rsquo;d better have a mighty computer running Linux and
 avoid virtualization. It&rsquo;s better not to use the standard SailfishOS SDK,
 but to resort to Mer chroot-based SDK.</p>
-
 <p>First of all you&rsquo;ll need to install Mer platform SDK and enter into it. Look at
 <a href="https://wiki.merproject.org/wiki/Platform_SDK">this wiki page</a> for details and
 follow the instructions till the part &ldquo;Basic tasks&rdquo;.</p>
-
 <p>Then you&rsquo;ll need to create and install a rootfs. More detailed instructions
 can be found <a href="https://wiki.merproject.org/wiki/Platform_SDK_and_SB2">here</a>,
 but below is an extarct from there:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">MerSDK$ sudo mkdir -p /parentroot/srv/mer/targets
-MerSDK$ <span style="color:#8be9fd;font-style:italic">cd</span> /tmp</code></pre></div>
-<p>Now in the current directory (which is /tmp) create a file <code>mer-target-armv7hl.ks</code>
+MerSDK$ <span style="color:#8be9fd;font-style:italic">cd</span> /tmp
+</code></pre></div><p>Now in the current directory (which is /tmp) create a file <code>mer-target-armv7hl.ks</code>
 with the following content:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#6272a4"># -*-mic2-options-*- --arch=armv7hl -*-mic2-options-*-</span>
 lang en_US.UTF-8
@@ -181,30 +177,30 @@ rpm --rebuilddb
 <span style="color:#8be9fd;font-style:italic">echo</span> <span style="color:#f1fa8c">&#39;arch = armv7hl&#39;</span> &gt;&gt; /etc/zypp/zypp.conf
 <span style="color:#6272a4">## end arch-armv7hl.post</span>
 
-%end</code></pre></div>
-<p>Then create a target:</p>
+%end
+</code></pre></div><p>Then create a target:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">MerSDK$ sudo mic create fs mer-target-armv7hl.ks -o /parentroot/srv/mer/targets <span style="color:#f1fa8c">\
 </span><span style="color:#f1fa8c"></span>                 --pkgmgr<span style="color:#ff79c6">=</span>zypp --arch<span style="color:#ff79c6">=</span>armv7hl --tokenmap<span style="color:#ff79c6">=</span>MER_RELEASE:latest
-MerSDK$ sudo chown -R <span style="color:#8be9fd;font-style:italic">$USER</span> /parentroot/srv/mer/targets/mer-target-armv7hl/</code></pre></div>
-<p>Now tweak the target to recognize you:</p>
+MerSDK$ sudo chown -R <span style="color:#8be9fd;font-style:italic">$USER</span> /parentroot/srv/mer/targets/mer-target-armv7hl/
+</code></pre></div><p>Now tweak the target to recognize you:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">MerSDK$ <span style="color:#8be9fd;font-style:italic">cd</span> /parentroot/srv/mer/targets/mer-target-armv7hl/
 MerSDK$ grep :<span style="color:#ff79c6">$(</span>id -u<span style="color:#ff79c6">)</span>: /etc/passwd &gt;&gt; etc/passwd
-MerSDK$ grep :<span style="color:#ff79c6">$(</span>id -g<span style="color:#ff79c6">)</span>: /etc/group &gt;&gt; etc/group</code></pre></div>
-<p>Configure it to work with Scratchbox2 together:</p>
+MerSDK$ grep :<span style="color:#ff79c6">$(</span>id -g<span style="color:#ff79c6">)</span>: /etc/group &gt;&gt; etc/group
+</code></pre></div><p>Configure it to work with Scratchbox2 together:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">MerSDK$ <span style="color:#8be9fd;font-style:italic">cd</span> /parentroot/srv/mer/targets/mer-target-armv7hl/
 MerSDK$ sb2-init -d -L <span style="color:#f1fa8c">&#34;--sysroot=/&#34;</span> -C <span style="color:#f1fa8c">&#34;--sysroot=/&#34;</span> <span style="color:#f1fa8c">\
 </span><span style="color:#f1fa8c"></span>                 -c /usr/bin/qemu-arm-dynamic -m sdk-build -n -N <span style="color:#f1fa8c">\
 </span><span style="color:#f1fa8c"></span>                 -t / mer-target-armv7hl <span style="color:#f1fa8c">\
 </span><span style="color:#f1fa8c"></span>                 /opt/cross/bin/armv7hl-meego-linux-gnueabi-gcc
-MerSDK$ sb2 -t mer-target-armv7hl -m sdk-install -R zypper ref --force</code></pre></div>
-<p>Clone web engine git repos to your local file system (e.g. into
+MerSDK$ sb2 -t mer-target-armv7hl -m sdk-install -R zypper ref --force
+</code></pre></div><p>Clone web engine git repos to your local file system (e.g. into
 the local directory <code>/home/rozhkov/tmp/mozilla-temp/</code>):</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ mkdir -p /home/rozhkov/tmp/mozilla-temp
 $ <span style="color:#8be9fd;font-style:italic">cd</span> /home/rozhkov/tmp/mozilla-temp
 $ git clone git@github.com:tmeshkova/xulrunner-package.git
 $ <span style="color:#8be9fd;font-style:italic">cd</span> xulrunner-package
-$ ./pull.all.sh</code></pre></div>
-<p>After that install build requirements to the rootfs:</p>
+$ ./pull.all.sh
+</code></pre></div><p>After that install build requirements to the rootfs:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">MerSDK$ <span style="color:#8be9fd;font-style:italic">cd</span> /home/rozhkov/tmp/mozilla-temp/xulrunner-package
 MerSDK$ grep --color<span style="color:#ff79c6">=</span>never BuildRequires mozilla-central/rpm/xulrunner-qt5.spec | <span style="color:#f1fa8c">\
 </span><span style="color:#f1fa8c"></span>        sed -e <span style="color:#f1fa8c">&#39;/^#.*$/d&#39;</span> | <span style="color:#f1fa8c">\
@@ -225,18 +221,16 @@ MerSDK$ grep --color<span style="color:#ff79c6">=</span>never BuildRequires sail
 </span><span style="color:#f1fa8c"></span>        sed -e <span style="color:#f1fa8c">&#39;/^#.*$/d&#39;</span> | <span style="color:#f1fa8c">\
 </span><span style="color:#f1fa8c"></span>        gawk -F: <span style="color:#f1fa8c">&#39;{ print $2 }&#39;</span> | <span style="color:#f1fa8c">\
 </span><span style="color:#f1fa8c"></span>        tr <span style="color:#f1fa8c">&#39;,&#39;</span> <span style="color:#f1fa8c">&#39; &#39;</span>| <span style="color:#f1fa8c">\
-</span><span style="color:#f1fa8c"></span>        xargs sb2 -t mer-target-armv7hl -m sdk-install -R zypper in</code></pre></div>
-<p>Remove the packages that are not really needed for engine development:</p>
+</span><span style="color:#f1fa8c"></span>        xargs sb2 -t mer-target-armv7hl -m sdk-install -R zypper in
+</code></pre></div><p>Remove the packages that are not really needed for engine development:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">MerSDK$ sb2 -t mer-target-armv7hl -m sdk-install -R <span style="color:#f1fa8c">\
 </span><span style="color:#f1fa8c"></span>             zypper rm qtmozembed-qt5 qtmozembed-qt5-devel <span style="color:#f1fa8c">\
-</span><span style="color:#f1fa8c"></span>                       xulrunner-qt5 xulrunner-qt5-devel</code></pre></div>
-<p>And finally build the stuff with the <code>build.sh</code> script::</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">MerSDK$ sb2 -t mer-target-armv7hl -m sdk-build ./build.sh -j -t mer</code></pre></div>
-<p>The option <code>-j</code> here makes <code>build.sh</code> build sailfish-browser binaries as well.</p>
-
+</span><span style="color:#f1fa8c"></span>                       xulrunner-qt5 xulrunner-qt5-devel
+</code></pre></div><p>And finally build the stuff with the <code>build.sh</code> script::</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">MerSDK$ sb2 -t mer-target-armv7hl -m sdk-build ./build.sh -j -t mer
+</code></pre></div><p>The option <code>-j</code> here makes <code>build.sh</code> build sailfish-browser binaries as well.</p>
 <p>When everything is successfully built the script will show instructions on how
 to run the newly built browser:</p>
-
 <pre><code>...
 make[1]: Leaving directory `/home/rozhkov/tmp/mozilla-temp/xulrunner-package/sailfish-browser/src'
 make: Leaving directory `/home/rozhkov/tmp/mozilla-temp/xulrunner-package/sailfish-browser'
@@ -255,15 +249,13 @@ export QTMOZEMBEDOBJDIR=/home/rozhkov/tmp/mozilla-temp/xulrunner-package/qtmozem
 run test example:
 /home/rozhkov/tmp/mozilla-temp/xulrunner-package/objdir-mer/dist/bin/qmlMozEmbedTestQt5  -fullscreen  -url about:license
 /home/rozhkov/tmp/mozilla-temp/xulrunner-package/objdir-mer/dist/bin/sailfish-browser about:license
-</code></pre>
-
-<p>Due to a bug in gecko build scripts you might encounter an error message about
+</code></pre><p>Due to a bug in gecko build scripts you might encounter an error message about
 missing <code>config.status</code> file after the build configuration phase. In this case
 just copy the file <code>objdir-mer/config.status</code> to your working directory and
 run <code>build.sh</code> again:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">MerSDK$ cp objdir-mer/config.status .
-MerSDK$ sb2 -t mer-target-armv7hl -m sdk-build ./build.sh -j -t mer</code></pre></div>
-<p>The best way to test the build is to mount the working directory into the
+MerSDK$ sb2 -t mer-target-armv7hl -m sdk-build ./build.sh -j -t mer
+</code></pre></div><p>The best way to test the build is to mount the working directory into the
 device&rsquo;s file system so that the path to the built binaries on the device is
 the same as in the host filesystem. For this you&rsquo;ll need to have the package
 <code>sshfs</code> installed on the device:</p>
@@ -277,37 +269,35 @@ the same as in the host filesystem. For this you&rsquo;ll need to have the packa
 <span style="color:#ff79c6">[</span>nemo@localhost-001 xulrunner-package<span style="color:#ff79c6">]</span>$ <span style="color:#8be9fd;font-style:italic">export</span> <span style="color:#8be9fd;font-style:italic">LD_LIBRARY_PATH</span><span style="color:#ff79c6">=</span>/home/rozhkov/tmp/mozilla-temp/xulrunner-package/qtmozembed/objdir-mer/src
 <span style="color:#ff79c6">[</span>nemo@localhost-001 xulrunner-package<span style="color:#ff79c6">]</span>$ <span style="color:#8be9fd;font-style:italic">export</span> <span style="color:#8be9fd;font-style:italic">QML_IMPORT_PATH</span><span style="color:#ff79c6">=</span>/home/rozhkov/tmp/mozilla-temp/xulrunner-package/qtmozembed/objdir-mer/qmlplugin5
 <span style="color:#ff79c6">[</span>nemo@localhost-001 xulrunner-package<span style="color:#ff79c6">]</span>$ <span style="color:#8be9fd;font-style:italic">export</span> <span style="color:#8be9fd;font-style:italic">QML2_IMPORT_PATH</span><span style="color:#ff79c6">=</span>/home/rozhkov/tmp/mozilla-temp/xulrunner-package/qtmozembed/objdir-mer/qmlplugin5
-<span style="color:#ff79c6">[</span>nemo@localhost-001 xulrunner-package<span style="color:#ff79c6">]</span>$ /home/rozhkov/tmp/mozilla-temp/xulrunner-package/objdir-mer/dist/bin/sailfish-browser about:license</code></pre></div>
-<p>By now you should have working development environment. If you change code under
+<span style="color:#ff79c6">[</span>nemo@localhost-001 xulrunner-package<span style="color:#ff79c6">]</span>$ /home/rozhkov/tmp/mozilla-temp/xulrunner-package/objdir-mer/dist/bin/sailfish-browser about:license
+</code></pre></div><p>By now you should have working development environment. If you change code under
 <code>mozilla-central/embedding/embedlite</code>, <code>qtmozembed</code>, <code>embedlite-components</code> or
 <code>sailfish-browser</code> just run the <code>build.sh</code> script again:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">MerSDK$ sb2 -t mer-target-armv7hl -m sdk-build ./build.sh -j -t mer</code></pre></div>
-<p>If you change something inside other gecko components, e.g. under <code>mozilla-central/dom/events</code>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">MerSDK$ sb2 -t mer-target-armv7hl -m sdk-build ./build.sh -j -t mer
+</code></pre></div><p>If you change something inside other gecko components, e.g. under <code>mozilla-central/dom/events</code>
 or <code>mozilla-central/gfx</code>,
 then you&rsquo;ll need to rebuild the outdated object files too with the option <code>-o</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">MerSDK$ sb2 -t mer-target-armv7hl -m sdk-build ./build.sh -j -t mer -o dom/events,gfx</code></pre></div>
-<p>This way there is no need to rebuild all other object files. And if you&rsquo;re working
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">MerSDK$ sb2 -t mer-target-armv7hl -m sdk-build ./build.sh -j -t mer -o dom/events,gfx
+</code></pre></div><p>This way there is no need to rebuild all other object files. And if you&rsquo;re working
 on the engine only then you might want to use the option <code>-e</code> of <code>build.sh</code> that
 makes the script to rebuild only the engine:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">MerSDK$ sb2 -t mer-target-armv7hl -m sdk-build ./build.sh -e -t mer</code></pre></div>
-<h3 id="useful-info">Useful info</h3>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">MerSDK$ sb2 -t mer-target-armv7hl -m sdk-build ./build.sh -e -t mer
+</code></pre></div><h3 id="useful-info">Useful info</h3>
 <p>If you&rsquo;re working on JS components don&rsquo;t forget to reset the start up cache
 before testing your work:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#ff79c6">[</span>nemo@localhost-001 xulrunner-package<span style="color:#ff79c6">]</span>$ rm -fr ~/.mozilla/mozembed/startupCache/</code></pre></div>
-<p>If you need to switch on <a href="https://wiki.mozilla.org/MailNews:Logging">logging</a>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#ff79c6">[</span>nemo@localhost-001 xulrunner-package<span style="color:#ff79c6">]</span>$ rm -fr ~/.mozilla/mozembed/startupCache/
+</code></pre></div><p>If you need to switch on <a href="https://wiki.mozilla.org/MailNews:Logging">logging</a>
 in the engine then define <code>NSPR_LOG_MODULES</code> environment variable:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#ff79c6">[</span>nemo@localhost-001 xulrunner-package<span style="color:#ff79c6">]</span>$ <span style="color:#8be9fd;font-style:italic">export</span> <span style="color:#8be9fd;font-style:italic">NSPR_LOG_MODULES</span><span style="color:#ff79c6">=</span>TabChildHelper:5,EmbedLiteTrace:5,EmbedContentController:5</code></pre></div>
-<p>In order to see logging from components other than EmbedLite you&rsquo;d need to
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#ff79c6">[</span>nemo@localhost-001 xulrunner-package<span style="color:#ff79c6">]</span>$ <span style="color:#8be9fd;font-style:italic">export</span> <span style="color:#8be9fd;font-style:italic">NSPR_LOG_MODULES</span><span style="color:#ff79c6">=</span>TabChildHelper:5,EmbedLiteTrace:5,EmbedContentController:5
+</code></pre></div><p>In order to see logging from components other than EmbedLite you&rsquo;d need to
 have a so called debug build of xulrunner. Use the option <code>-d</code> of the
 <code>build.sh</code> script to create it.</p>
-
 <p>Unfortunately the gecko build system is based on python which runs under qemu
 inside Scratchbox2 by default (unless you do x86 build). It is possible to accelerate python though.
 To achieve this you need to use a special Scratchbox2 mode <code>sdk-build+pp</code> and
 to add the option <code>-r</code> to <code>build.sh</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">MerSDK$ sb2 -t mer-target-armv7hl -m sdk-build+pp ./build.sh -r -j -t mer</code></pre></div>
-<p>Happy hacking!</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">MerSDK$ sb2 -t mer-target-armv7hl -m sdk-build+pp ./build.sh -r -j -t mer
+</code></pre></div><p>Happy hacking!</p>
     
 </div>
 

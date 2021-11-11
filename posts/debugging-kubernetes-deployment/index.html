@@ -6,7 +6,7 @@
         <meta name="author" content="">
         <meta name="description" content="">
         <meta name="keywords" content="">
-        <meta name="generator" content="Hugo 0.59.0" />
+        <meta name="generator" content="Hugo 0.79.0" />
         <title> Debugging a Kubernetes Deployment | Dmitry Rozhkov</title>
         <meta name="description" content="Debugging a Kubernetes Deployment - %!s(&lt;nil&gt;)">
         <meta itemprop="name" content="Debugging a Kubernetes Deployment">
@@ -29,7 +29,7 @@
         
         
         
-        <link rel="stylesheet" href="/sass/combined.min.2072f0ef1b87081e9ca5011a6a085bb666600ca54c1aa4d1e43a7c03b09b3cf7.css">
+        <link rel="stylesheet" href="/sass/combined.min.47f9728fd974d375c7aef6b35f8ce489792802f8b4aede42526d18279fd04100.css">
 
         
 
@@ -122,87 +122,95 @@
     
         <p>When looking for a Kubernetes issue I could investigate I stumbled upon
 this <a href="https://github.com/kubernetes/kubernetes/issues/67515">problem</a>.
-The title should have been worded as something like &laquo;A new mysterious
+The title should have been worded as something like «A new mysterious
 <code>ReplicaSet</code> replaces the original one soon after its <code>Deployment</code> has
-been created&raquo;. What&rsquo;s important is that this new <code>ReplicaSet</code> fails
+been created». What&rsquo;s important is that this new <code>ReplicaSet</code> fails
 to start.</p>
-
 <p>In hindsight the case seems rather trivial, but at the time I saw the
 issue it didn&rsquo;t feel like that. The first suspect was the code of
 Kubernetes mistakenly firing up an unneeded <code>ReplicaSet</code>, thus I needed
 a way to hunt down the culprit in the code.</p>
-
 <p>How do people debug such issues? Isn&rsquo;t there a proven methodology, a more
 or less systematic approach to solving similar puzzles. I&rsquo;m not aware
 of any. <a href="https://github.com/kubernetes/kubernetes/issues/67515#issuecomment-415481314">Not only me</a>
 is asking such questions it seems. So, I decided to copy my comment
 from the issue discussion to this blog.</p>
-
 <p>My style of debugging is trial and error led by my intuition. But here
 is the scheme I usually use:</p>
-
-<ol>
-<li><p>Reproduce the issue locally. Usually this is the most time consuming
-step.</p></li>
-
-<li><p>Look into all available logs for anything weird or strange (nothing
-interesting here this time).</p></li>
-
-<li><p>Try to build an older version of Kubernetes, as old as possible. And see
+<ol start="0">
+<li>
+<p>Reproduce the issue locally. Usually this is the most time consuming
+step.</p>
+</li>
+<li>
+<p>Look into all available logs for anything weird or strange (nothing
+interesting here this time).</p>
+</li>
+<li>
+<p>Try to build an older version of Kubernetes, as old as possible. And see
 if the issue is reproducible. Then in case it&rsquo;s not use <code>git bisect</code> to
 find the offending commit. Unfortunately the issue is reproducible even
-with K8s 1.8.0.</p></li>
-
-<li><p>Examine the content of the objects in question (<code>ReplicaSet</code>s) using
+with K8s 1.8.0.</p>
+</li>
+<li>
+<p>Examine the content of the objects in question (<code>ReplicaSet</code>s) using
 <code>kubectl describe ...</code>. How objects of the same type differ from each
 other. If some objects are mutable try to find out how their content
 gets updated (<code>Deployment</code>). Here I found out that the new replica set lacks
-tolerations and the deployment is not immutable.</p></li>
-
-<li><p>Find the code which runs upon deployment updates and increase its log
+tolerations and the deployment is not immutable.</p>
+</li>
+<li>
+<p>Find the code which runs upon deployment updates and increase its log
 verbosity. It turned out the relevant code is the deployment controller
 of <code>kube-contoller-manager</code>. This environment variable increases log
 verbosity for the code <code>LOG_SPEC=deployment_controller*=5,replica_set*=5,sync*=5,recreate*=5</code>.
 The only outcome on this step was the confirmation that the deployment
-gets updated.</p></li>
-
-<li><p>Modify the sync handler for <code>Deployment</code> objects to log what exactly has
-changed (this lib can be used to do the diff <a href="https://github.com/d4l3k/messagediff">https://github.com/d4l3k/messagediff</a>).
-Here we see that the only change was the removal of the tolerations.</p></li>
-
-<li><p>Look for code which actually does update <code>Deployment</code> through the API server
+gets updated.</p>
+</li>
+<li>
+<p>Modify the sync handler for <code>Deployment</code> objects to log what exactly has
+changed (this lib can be used to do the diff <a href="https://github.com/d4l3k/messagediff)">https://github.com/d4l3k/messagediff)</a>.
+Here we see that the only change was the removal of the tolerations.</p>
+</li>
+<li>
+<p>Look for code which actually does update <code>Deployment</code> through the API server
 with this command</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ git grep Deployments | grep <span style="color:#f1fa8c">&#34;Update(&#34;</span></code></pre></div>
-<p>There are only few places in Kubernetes where <code>Deployment</code>s get updated,
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ git grep Deployments | grep <span style="color:#f1fa8c">&#34;Update(&#34;</span>
+</code></pre></div><p>There are only few places in Kubernetes where <code>Deployment</code>s get updated,
 but none looks relevant. This leads to the hypothesis that the source of
-the update is somewhere outside of Kubernetes.</p></li>
-
-<li><p>Take a closer look at the YAML files. They seem to be quite complex.</p></li>
-
-<li><p>Try to make the setup as simple as possible where the issue is still
+the update is somewhere outside of Kubernetes.</p>
+</li>
+<li>
+<p>Take a closer look at the YAML files. They seem to be quite complex.</p>
+</li>
+<li>
+<p>Try to make the setup as simple as possible where the issue is still
 reproducible. Here I found that small one line changes in different YAML
-files lead to the issue being not reproducible - the setup is too fragile.</p></li>
-
-<li><p>Then look through the YAMLs line by line in the hope to find something
+files lead to the issue being not reproducible - the setup is too fragile.</p>
+</li>
+<li>
+<p>Then look through the YAMLs line by line in the hope to find something
 interesting. The interesting bit here is that the deployment operates
 on behalf of the <code>kube-state-metrics</code> service account which requests
-permission to do <code>update</code> on <code>Deployment</code>s.</p></li>
-
-<li><p>Drop this permission. This confirms that the Deployment doesn&rsquo;t
-change any more.</p></li>
-
-<li><p>Look into the logs of the running pod. Bingo! In <code>addon-resizer</code>&rsquo;s logs
-there is an error about inability to update the <code>Deployment</code>.</p></li>
-
-<li><p>Try to find the sources of <code>addon-resizer:1.0</code>. This turned out to be
+permission to do <code>update</code> on <code>Deployment</code>s.</p>
+</li>
+<li>
+<p>Drop this permission. This confirms that the Deployment doesn&rsquo;t
+change any more.</p>
+</li>
+<li>
+<p>Look into the logs of the running pod. Bingo! In <code>addon-resizer</code>&rsquo;s logs
+there is an error about inability to update the <code>Deployment</code>.</p>
+</li>
+<li>
+<p>Try to find the sources of <code>addon-resizer:1.0</code>. This turned out to be
 not easy task, because the version 1.0 is <strong>very</strong> old. Apparently the
 culprit is K8s API has evolved too much since v1.0. Looking at <code>PodSpec</code>
-used in <code>addon-resizer:1.0</code> confirms it.</p></li>
+used in <code>addon-resizer:1.0</code> confirms it.</p>
+</li>
 </ol>
-
 <p>So, it turned out the problem is in the outdated container image
 <code>quay.io/coreos/addon-resizer:1.0</code> of the deployment.</p>
-
 <p>It runs a client which updates the <code>kube-state-metrics</code> deployment. But the
 client uses outdated API which lacks <code>Tolerations</code> in <code>PodSpec</code>. As result
 the updated deployment looses tolerations in its pod template. The deployment

@@ -6,7 +6,7 @@
         <meta name="author" content="">
         <meta name="description" content="">
         <meta name="keywords" content="">
-        <meta name="generator" content="Hugo 0.59.0" />
+        <meta name="generator" content="Hugo 0.79.0" />
         <title> EmbedLite Initialization | Dmitry Rozhkov</title>
         <meta name="description" content="EmbedLite Initialization - %!s(&lt;nil&gt;)">
         <meta itemprop="name" content="EmbedLite Initialization">
@@ -29,7 +29,7 @@
         
         
         
-        <link rel="stylesheet" href="/sass/combined.min.2072f0ef1b87081e9ca5011a6a085bb666600ca54c1aa4d1e43a7c03b09b3cf7.css">
+        <link rel="stylesheet" href="/sass/combined.min.47f9728fd974d375c7aef6b35f8ce489792802f8b4aede42526d18279fd04100.css">
 
         
 
@@ -123,30 +123,24 @@
         <p>I guess some people may find useful the couple of words below on how
 EmbedLite embedding is initialized. I&rsquo;ve written them mostly because I&rsquo;m trying
 to wrap my head around the topic myself. So please let me know if you see non-sense.</p>
-
 <h3 id="initialization-procedure">Initialization procedure</h3>
-
 <p>First of all a toolkit specific embedding (e.g. qtmozembed) must pre-configure
 embedlite with the function <code>LoadEmbedLite()</code>. Then we should instantiate
 <code>EmbedLiteApp</code> class. This is done with the function <code>XRE_GetEmbedLite()</code>.
 Only one instance of <code>EmbedLiteApp</code> class can be created. Let&rsquo;s call this
 singleton &ldquo;embedLiteApp&rdquo;.</p>
-
 <p>Next step is to set up callbacks to the embedding into &ldquo;embedLiteApp&rdquo;. Currently
 the callbacks should be implemented as a class inheriting to
 <code>EmbedLiteAppListener</code>. The callbacks are called by &ldquo;embedLiteApp&rdquo; in order
 either to notify our embedding about application-wide events or to configure
 native threads. Only one instance of this callback collection makes sense.</p>
-
 <p>Then the embedding (qtmozembed) should register all needed manifests of XPCOM
 components with <code>EmbedLiteApp::AddComponentManifest()</code>.</p>
-
 <p>At this stage a separate thread with embedlite can be started with either
 <code>EmbedLiteApp::StartWithCustomPump()</code> or <code>EmbedLiteApp::Start()</code> methods.
 The former method does an asynchronous call and returns immediately, the latter
 one returns only after embedlite has stopped. After that the web engine starts
 its initialization procedures.</p>
-
 <p>Internally &ldquo;embedLiteApp&rdquo; schedules a call to its <code>EmbedLiteApp::StartChild()</code>
 which is supposed to create a thread for embedlite either itself or with help
 of a toolkit specific embedding (through the
@@ -164,24 +158,19 @@ channel to <code>EmbedLiteAppThreadParent</code>. The communication protocol is 
 in the file <code>PEmbedLiteApp.ipdl</code>. Direct method calls from one thread to another
 must be avoided since the objects can be placed into different processes actually,
 not threads.</p>
-
 <p>Basically the instance of <code>EmbedLiteApp</code> represents a chrome (or main UI) thread.
 It communicates with a toolkit specific embedding through installed callbacks
 (see <code>EmbedLiteAppListner</code>) and with Gecko webengine through the actor
 <code>EmbedLiteAppThreadParent</code>.</p>
-
 <p>Also the initialization procedures includes creation of <code>EmbedLiteAppService</code>
 implementing the interface <code>nsIEmbedAppService</code>. This service keeps track of
 created web views and is used by XPCOM components to communicate with the veiws.</p>
-
 <p>After the implementation of <code>nsIEmbedAppService</code> is up and running the web
 engine is considered to be fully functional. This event gets propagated to
 the main UI thread (the parent actor receives the <code>async Initialized()</code>
 message). Also the &ldquo;embedliteInitialized&rdquo; message is broadcasted with
 <code>nsIObserverService</code>. From now on we can create actual web views.</p>
-
 <h3 id="webview-creation">WebView creation</h3>
-
 <p>For every native widget representing a web view there should exist a corresponding
 instance of <code>EmbedLiteView</code> class. This class exposes public API for web views
 to the toolkit specific embedding (i.e. qtmozembed). Just like in the case of
@@ -189,7 +178,6 @@ to the toolkit specific embedding (i.e. qtmozembed). Just like in the case of
 instance of <code>EmbedLiteView</code>. The callbacks are organized as virtual methods
 of a class inheriting to <code>EmbedLiteViewListener</code>. A native widget is supposed
 to instantiate the class and to register it with <code>EmbedLiteView::SetListener()</code>.</p>
-
 <p>The instance of <code>EmbedLiteView</code> can be created by a native widget with the
 method <code>EmbedLiteApp::CreateView()</code>. Internally in the method &ldquo;embedliteApp&rdquo;
 generates an unique ID, then instantiates <code>EmbedLiteView</code> identified by the ID
@@ -199,7 +187,6 @@ the just created <code>EmbedLiteView</code> instance to the native widget. The n
 widget installs its callbacks and that&rsquo;s it. At this moment the <code>EmbedLiteView</code>
 instance still cannot be used to communicate with the actual web view because it
 doesn&rsquo;t exist yet.</p>
-
 <p>When the gecko thread receives the message <code>async CreateView()</code> (via
 <code>EmbedLiteAppThreadChild::RecvCreateView()</code>) it creates a pair of subprotocol
 actors <code>EmbedLiteViewThreadParent</code> and <code>EmbedLiteViewThreadChild</code>. The former
@@ -215,48 +202,38 @@ end point sends a <code>async Initialized()</code> message to the corresponding 
 The parent end point directly calls the callback <code>ViewInitialized()</code> registered
 by the toolkit specific embedding. Now the native widget is notified that
 its web view is fully functional.</p>
-
 <h3 id="web-view-initialization">Web view initialization</h3>
-
 <p>So, what actually happens inside <code>EmbedLIteViewThreadChild::InitGeckoWindow()</code>?
 First of all we create an object representing web browser, that is the object must
 implemenent the interface <code>nsIWebBrowser</code>. The reference to this object is kept
 in the private member <code>EmbedLiteViewThreadChild::mWebBrowser</code>.</p>
-
 <p>Then we create an interface instance for the <code>nsIBaseWindow</code> interface out of the
 web browser object. Remember that interface instances of different types can
 refer to the same physical object implementing more than one interfaces.</p>
-
 <p>Also we create a fake browser widget <code>EmbedLitePuppetWidget</code> inheriting to
 <code>PuppetWidget</code> and implementing the interface <code>nsIWidget</code>. This is how this
 abstraction is described in Gecko code:</p>
-
 <blockquote>
-<p>&laquo;This &ldquo;puppet widget&rdquo; isn&rsquo;t really a platform widget.  It&rsquo;s intended
+<p>«This &ldquo;puppet widget&rdquo; isn&rsquo;t really a platform widget.  It&rsquo;s intended
 to be used in widgetless rendering contexts, such as sandboxed
 content processes.  If any &ldquo;real&rdquo; widgetry is needed, the request
-is forwarded to and/or data received from elsewhere.&raquo;</p>
+is forwarded to and/or data received from elsewhere.»</p>
 </blockquote>
-
 <p>Then we initialize the base window with the widget:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">rv <span style="color:#ff79c6">=</span> baseWindow<span style="color:#ff79c6">-&gt;</span>InitWindow(<span style="color:#bd93f9">0</span>, mWidget, <span style="color:#bd93f9">0</span>, <span style="color:#bd93f9">0</span>, mViewSize.width, mViewSize.height);
 <span style="color:#ff79c6">if</span> (NS_FAILED(rv)) {
     <span style="color:#ff79c6">return</span>;
 }
-</code></pre></div>
-<p>The important part is that we initialize the window which hasn&rsquo;t been created
+</code></pre></div><p>The important part is that we initialize the window which hasn&rsquo;t been created
 yet, because as said in the documentation for the property
 <code>nsIWebBrowser.containerWindow</code>:</p>
-
 <blockquote>
-<p>&laquo;The embedder must create one chrome object for each browser object that
+<p>«The embedder must create one chrome object for each browser object that
 is instantiated. The embedder must associate the two by setting this
 property to point to the chrome object before creating the browser
-window via the browser&rsquo;s nsIBaseWindow interface.&raquo;</p>
+window via the browser&rsquo;s nsIBaseWindow interface.»</p>
 </blockquote>
-
 <p>After that we</p>
-
 <ol>
 <li>create and initialize a chrome object (<code>nsIWebBrowserChrome</code>),</li>
 <li>associate it with the web browser object,</li>
@@ -273,16 +250,12 @@ other),</li>
 <li>create a <code>TabChildHelper</code> instance,</li>
 <li>send <code>async Initialized()</code> message to the main UI thread.</li>
 </ol>
-
 <p><code>TabChildHelper</code> is a private object handling various tasks for <code>EmbedLiteViewThreadChild</code>
 such as viewport calculations and handling scroll events originating from
 content.</p>
-
 <p>The current goal is to make TabChildHelper share functionality with upstream
 dom/ipc/TabChild class, in order to reduce maintenance burden.</p>
-
 <h3 id="on-compositing">On compositing</h3>
-
 <p>The code of <code>EmbedLitePuppetWidget</code> basically is a copy-paste from mozilla&rsquo;s
 <code>PuppetWidget</code> class. Would be nice to refactor it to avoid code duplication.
 Mainly the code differs in how compositor objects are created. In fact the base
@@ -291,7 +264,6 @@ responsibility of a native widget, but embedlite does create a compositor
 inside this fake widget by calling the static method
 <code>gfxPlatform::GetPlatform()</code> (see <code>EmbedLitePuppetWidget::CreateCompositor</code>).
 This method</p>
-
 <ol>
 <li>initializes a font rasterizer library,</li>
 <li>initializes Qt&rsquo;s graphic platform (looks like there is no much Qt specific
@@ -303,15 +275,12 @@ Only one compositor thread per gecko proccess is created.</li>
 <li>creates the image bridge thread connected to the compositor thread via
 the pair of actors <code>ImageBridgeParent</code> and <code>ImageBridgeChild</code>.</li>
 </ol>
-
 <p>The <code>PImageBridge</code> protocol is used to allow isolated threads or processes
 to push frames directly to the compositor thread/process (from the content
 thread) without relying on the main thread which might be too busy dealing
 with content script. Again only one image bridge thread per gecko process
 can be created.</p>
-
 <p>In addition to that the fake widget creates</p>
-
 <ol>
 <li>an instance of <code>LayerManager</code> class;</li>
 <li>an instance of <code>EmbedLiteCompositorParent</code> class which is a subclass of the
@@ -321,13 +290,11 @@ compositor thread for the <code>LayerManager</code> object;</li>
 <li>a shadow manager (a child end point of the <code>LayerTransaction</code> subprotocol);</li>
 <li>a shadow forwarder connected to the shadow manager</li>
 </ol>
-
 <p>and registers the shadow manager in the image bridge. Images drawn in the content
 thread by the layer manager get forwarded through the image bridge to the
 compositor thread which is supposed to render the images into a GL context.
 See <a href="https://wiki.mozilla.org/Gecko:Overview#Graphics">this page</a> for a better
 explanation of compositing.</p>
-
 <p><strong>WARNING</strong>: Currently the <code>EmbedLiteCompositorParent</code> class implements methods that are
 called from the main UI thread. But the object is supposed to live in the
 compositor thread. This may become a problem if UI and gecko get moved to

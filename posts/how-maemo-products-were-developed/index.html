@@ -6,7 +6,7 @@
         <meta name="author" content="">
         <meta name="description" content="">
         <meta name="keywords" content="">
-        <meta name="generator" content="Hugo 0.59.0" />
+        <meta name="generator" content="Hugo 0.79.0" />
         <title> How Maemo Products Were Developed | Dmitry Rozhkov</title>
         <meta name="description" content="How Maemo Products Were Developed - %!s(&lt;nil&gt;)">
         <meta itemprop="name" content="How Maemo Products Were Developed">
@@ -29,7 +29,7 @@
         
         
         
-        <link rel="stylesheet" href="/sass/combined.min.2072f0ef1b87081e9ca5011a6a085bb666600ca54c1aa4d1e43a7c03b09b3cf7.css">
+        <link rel="stylesheet" href="/sass/combined.min.47f9728fd974d375c7aef6b35f8ce489792802f8b4aede42526d18279fd04100.css">
 
         
 
@@ -126,44 +126,36 @@ working in concert is the foundation on which any product is built.
 Means of production are useless without people, but people need to
 be organized, their relations have to be structured to transform
 the collective effort into a meaningful outcome.</p>
-
 <p>I used to be a part of the <a href="https://en.wikipedia.org/wiki/Maemo">Maemo</a>
 project at Nokia. In this post I&rsquo;d like to write down what I still remember
 about the ways the products like <a href="https://en.wikipedia.org/wiki/Nokia_N9">Nokia N9</a>
 were developed.</p>
-
 <p>Usually people&rsquo;s relations are structured with agreed policies.
 The policies are enforced either through organizational hierarchies or
 special tools. The more policy enforcement relies on tools the less
 is the need for managers managing the hierarchies.</p>
-
 <p>At Nokia the hierarchical structure was huge and had more than one
 dimension.</p>
-
 <p>Perhaps it makes sense to begin with <em>platforms</em>. It is a very loaded
 term, but at Nokia &ldquo;platform&rdquo; was used mostly to denote a base operating
 system on which products were built. There were <a href="https://en.wikipedia.org/wiki/Series_40">S40</a>,
 <a href="https://en.wikipedia.org/wiki/Series_60">S60</a>, WindowsPhone and
 Maemo platforms. So strictly speaking Maemo was not a project,
 but platform. Every platform had its own big boss.</p>
-
 <p>Then we had <em>programs</em> for the platforms. A program was led by a
 program manager. Programs were defined by base hardware configurations.</p>
-
 <p>And in the scope of a program (meaning on top of a base hardware configuration)
 <em>products</em> where developed, that is devices of slightly different hardware
 versions and flashable images for them. A product also included &ldquo;maintenance&rdquo;
 that is software updates for the released device. Obviously every product
 had its own product manager reporting to the program manager and responsible
 for her product&rsquo;s timely releases with certain functionality.</p>
-
 <p>In addition to that there were configuration managers responsible for
 product configurations targeting different markets. For example the Maps
 application for Nokia N9 selling in China users saw Taiwan as PRC&rsquo;s
 territory and so on. In some funny
 markets the Camera app must produce &ldquo;shutter&rdquo; sound when taking a
 picture, so the setting for disabling the sound must be excluded.</p>
-
 <p>Non-managers (also known as developers) were organized in <em>teams</em>.
 Every team was responsible for development of one subsystem of
 the platform. Examples are the Real-time Communication team, the Applications
@@ -173,7 +165,6 @@ the Multimedia team (sound processing and playback), the System Software
 team (Kernel and hardware adaptation) and others. Besides that there were
 auxiliary teams that didn&rsquo;t deliver any functionality to products, but
 supported the main teams. Without them products would be never released:</p>
-
 <ul>
 <li>the SDK team (toolchains, cross-compilers);</li>
 <li>the Performance team (optimizations and fixing performance issues);</li>
@@ -185,20 +176,16 @@ long before WeaveWorks. All this made it possible to integrate the
 deliverables of all other teams automatically (to some extent)
 into an end product. Later the team members formed the core of Jolla.</li>
 </ul>
-
 <p>Naturally every team was led by a line manager who did budgeting, facilitating
 and performance assessments.</p>
-
 <p>Inside the teams there were project managers who served as an interface
 between team members and product managers (teams delivered features to
 multiple products at the same time) and communicated with other teams
 because e.g. Applications depend on Application Framework, Phone depends
 on Multimedia and Camera (for video calls), almost everything depends
 Hardware Adaptation and everybody needs SDK.</p>
-
 <p>Also I&rsquo;d like to mention product QA, UX designers, industrial designers,
 sourcing, sales, marketing.</p>
-
 <p>In other words in 2000s it could cost a fortune to develop new
 mobile phones. But the good news is that a substantial part of the
 developed code was made open. Combined with the experience

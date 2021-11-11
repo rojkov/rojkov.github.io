@@ -6,7 +6,7 @@
         <meta name="author" content="">
         <meta name="description" content="">
         <meta name="keywords" content="">
-        <meta name="generator" content="Hugo 0.59.0" />
+        <meta name="generator" content="Hugo 0.79.0" />
         <title> What&#39;s Behind Sailfish Browser | Dmitry Rozhkov</title>
         <meta name="description" content="What&#39;s Behind Sailfish Browser - %!s(&lt;nil&gt;)">
         <meta itemprop="name" content="What&#39;s Behind Sailfish Browser">
@@ -29,7 +29,7 @@
         
         
         
-        <link rel="stylesheet" href="/sass/combined.min.2072f0ef1b87081e9ca5011a6a085bb666600ca54c1aa4d1e43a7c03b09b3cf7.css">
+        <link rel="stylesheet" href="/sass/combined.min.47f9728fd974d375c7aef6b35f8ce489792802f8b4aede42526d18279fd04100.css">
 
         
 
@@ -122,26 +122,21 @@
     
         <p>In this post I&rsquo;d like to shade some light on what technology is used in
 the browser application for Sailfish OS.</p>
-
 <p>By now it&rsquo;s a widely known fact that the browser is based on the Gecko engine
 which is developed by Mozilla corp. and is used in their Firefox browser and
 Firefox OS. For some reason it&rsquo;s not that known that the Sailfish browser is
 built upon the <a href="https://github.com/tmeshkova/gecko-dev/tree/embedlite/embedding/embedlite">EmbedLite</a>
 embedding API (also known as IPCLiteAPI) for Gecko.</p>
-
 <p>This embedding API started as a research project in Nokia by Oleg Romashin and
 Andrey Petrov at the times when Nokia was still developing the Maemo platform.
 Currently the project is maintained by Tatiana Meshkova.</p>
-
 <p>It would help us a lot if the API made its way to the main Gecko repository and
 became a part of the engine. Unfortunately this hasn&rsquo;t happened yet and the
 current status of such integration you can see in these two bugs:</p>
-
 <ol>
 <li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=746800">Mozilla bug 746800</a></li>
 <li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=713681">Mozilla bug 713681</a></li>
 </ol>
-
 <p>Later on Oleg has implemented a Qt embedding library (<a href="https://github.com/tmeshkova/qtmozembed">qtmozembed</a>)
 that uses this API. And this library has enabled the development of a very
 <a href="https://github.com/tmeshkova/qmlmozbrowser">lightweight Qt-based alternative to the Fennec browser</a>
@@ -150,12 +145,9 @@ project and packaged as <a href="https://build.merproject.org/package/show?packa
 Thanks to Andrey Kozhevnikov (aka CODERus), Stephan Beyerle (aka Morpog),
 Michael Demetriou (aka qwazix) and Ivaylo Dimitrov (aka freemangordon).
 The Cutefox browser became a starting point for the Sailfish browser.</p>
-
 <p>Now let&rsquo;s see how all these components work together.</p>
-
 <p>This <a href="https://wiki.mozilla.org/Embedding/IPCLiteAPI">page</a>
 breifly describes the architecture of EmbedLite API. The key points are:</p>
-
 <ul>
 <li>Native UI and Gecko engine live in different threads. Theoretically they can
 live in different processes thanks to Mozilla&rsquo;s <a href="https://developer.mozilla.org/en-US/docs/IPDL/Tutorial">IPDL</a>.</li>
@@ -165,9 +157,7 @@ which provides multi-threaded responsive rendering. The same as in Firefox OS
 and Firefox for Android.</li>
 <li>XUL is not used.</li>
 </ul>
-
 <p>Basically EmbedLite provides API to:</p>
-
 <ul>
 <li>start/terminate the Gecko engine in a separate thread/process;</li>
 <li>create/destroy a web view;</li>
@@ -177,33 +167,26 @@ in the native UI;</li>
 <li>get/set Gecko preferences;</li>
 <li>load XPCOM components needed for features implemented in the native UI.</li>
 </ul>
-
 <p>This functionality is exposed with two main classes: <code>EmbedLiteApp</code> and <code>EmbedLiteView</code>.
 <code>EmbedLiteApp</code> represents the Gecko engine. Only one instance of this class is allowed
 to be created. <code>EmbedLiteView</code> represents a web view naturally. It&rsquo;s possible to create
 many instances of this class.</p>
-
 <p>Also EmbedLite defines two interfaces for toolkit specific
 listeners: <code>EmbedLiteAppListener</code> and <code>EmbedLiteViewListener</code>. An implementor of a
 toolkit specific embedding is supposed to implement listeners inhereting to those
 interfaces. Particularly the Qt embedding I mentioned above implements these two
 listeners in the classes <code>QMozContextPrivate</code> (derived from <code>EmbedLiteAppListener</code>)
 and <code>QGraphicsMozViewprivate</code> (derived from <code>EmbedLiteViewListener</code>).</p>
-
 <p>The Sailfish browser doesn&rsquo;t know anything about all these details. They are hidden
 inside qtmozbed&rsquo;s interface classes:</p>
-
 <ol>
 <li><code>QMozContext</code> which encapsulates the web engine (via <code>QMozContextPrivate</code>);</li>
 <li><code>QuickMozView</code> which encapsulets a web view (via <code>QGraphicsMozViewPrivate</code>) and
 provides declarative QtQuick interface. In other words it can be used as a QML
 component in your Qt application.</li>
 </ol>
-
 <p>Here&rsquo;s a bit outdated static model:</p>
-
-<p><a href="/qtembed.png"><img src="/qtembed.png" width="600" /></a></p>
-
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <p>In the next post I&rsquo;ll describe in more details what happens when EmbedLite is initialized
 and a web view gets created.</p>
     
